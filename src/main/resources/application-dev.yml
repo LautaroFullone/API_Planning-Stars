@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/Planning-Starss
+    username: root
+  jpa:
+    hibernate:
+      ddl-auto: update
