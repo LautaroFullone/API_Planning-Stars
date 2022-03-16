@@ -26,7 +26,7 @@ public class UserController {
         return ResponseEntity.ok().body(u);
     }
 
-    /*@GetMapping
+    @GetMapping
     public ResponseEntity<List<User>> getUsers() {
         List<User> userList = userService.getUsers();
 
@@ -36,12 +36,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK)
                     .header("X-Total-Elements", Integer.toString(userList.size()))
                     .body(userList);
-
-    }*/
-
-    @GetMapping
-    public String getHello() {
-        return "hello";
 
     }
 }
