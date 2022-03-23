@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -17,9 +18,12 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
 
+    private Integer id;
+    @NotNull(message = "This Field is mandatory")
     private String name;
+    @NotNull(message = "This Field is mandatory")
     private String email;
+    @NotNull(message = "This Field is mandatory")
     private String password;
 }
