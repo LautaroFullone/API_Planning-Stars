@@ -1,6 +1,6 @@
 package com.utn.tesis.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.utn.tesis.exception.types.EmailExistException;
 import com.utn.tesis.model.User;
 import com.utn.tesis.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,10 +20,10 @@ public class UserController {
         this.userService = userService;
     }
 
-    @PostMapping()
-    public ResponseEntity<User> addUser(@RequestBody User user){
-        User u = userService.addUser(user);
-        return ResponseEntity.ok().body(u);
+    @PostMapping("/register")
+    public ResponseEntity createUser(@RequestBody User user) throws EmailExistException {
+        User usr = userService.createUser(user);
+        return ResponseEntity.status(HttpStatus.OK).body(usr);
     }
 
     @GetMapping
@@ -38,4 +38,5 @@ public class UserController {
                     .body(userList);
 
     }
+
 }
