@@ -6,7 +6,9 @@ import com.utn.tesis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -20,14 +22,13 @@ public class UserService {
 
     public User createUser(User user) throws EmailExistException {
 
-        int emailInUse = this.emailExist(user.getEmail());
+        Map<Integer,User> emailInUse = this.findUserByEmail(user.getEmail());
         User newUser=new User();
         //Check if the email is used
-        if(emailInUse != 1){
-            System.out.printf("hola");
-            return    newUser =userRepository.save(user);
-        }else{
+        if(emailInUse.containsKey(1)){
             throw  new EmailExistException("EMAIL in use.");
+        }else{
+            return  newUser =userRepository.save(user);
         }
 
     }
@@ -38,17 +39,20 @@ public class UserService {
     }
 
     /**
-     * Check in the Data Base if the EMAIL is used.
+     * Check in the Data Base if the EMAIL is used.Charge a map(Key:[1 ; -1],Value:[ User ]).
      * @param email String
-     * @return 1 if the Mail is use un the Data Base - 0 if NOT
+     * @return --A map with the User --.If the map contains the key 1:the email is used and charge the User key:-1 the email is free and charge a null User
      *
      */
-    public int emailExist(String email){
+    public Map<Integer,User> findUserByEmail(String email){
         List<User> usr = userRepository.findByEmail(email);
-        int rta =-1;
+        Map<Integer,User> rtaMap= new HashMap<>();
+
         if(usr.size()>0) {
-           rta = 1;
+          rtaMap.put(1,usr.get(0));
+        }else{
+           rtaMap.put(-1,new User());
         }
-        return  rta;
+        return rtaMap;
     }
 }
