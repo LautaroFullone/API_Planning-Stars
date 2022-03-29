@@ -6,6 +6,8 @@ import com.utn.tesis.exception.types.UserNotFindException;
 import com.utn.tesis.model.User;
 import com.utn.tesis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -16,14 +18,17 @@ import java.util.Map;
 public class UserService {
 
     private UserRepository userRepository;
+    PasswordEncoder passwordEncoder;
 
     @Autowired
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
+        this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
     public User createUser(User user) throws EmailExistException {
-
+       String encodesPass= this.passwordEncoder.encode(user.getPassword());
+       user.setPassword(encodesPass);
         Map<Integer,User> emailInUse = this.findUserByEmail(user.getEmail());
         User newUser=new User();
         //Check if the email is used
@@ -57,20 +62,18 @@ public class UserService {
         }
         return rtaMap;
     }
-
     public User login(User userLogging) {
         Map<Integer,User> userSeek= this.findUserByEmail(userLogging.getEmail());
         User user = new User();
         if(userSeek.containsKey(1)){
             User auxUser=userSeek.get(1);
-
-            if(auxUser.getPassword().equalsIgnoreCase(userLogging.getPassword())) {
+            if(this.passwordEncoder.matches(userLogging.getPassword(), auxUser.getPassword())) {
                 user = auxUser;
             }else{
                 throw  new InvalidUserOrPasswordException();
             }
-        }else {
-            throw new UserNotFindException();
+        }else{
+            throw  new InvalidUserOrPasswordException();
         }
         return user;
     }
