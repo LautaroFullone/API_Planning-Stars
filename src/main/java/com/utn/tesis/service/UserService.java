@@ -1,6 +1,8 @@
 package com.utn.tesis.service;
 
 import com.utn.tesis.exception.types.EmailExistException;
+import com.utn.tesis.exception.types.InvalidUserOrPasswordException;
+import com.utn.tesis.exception.types.UserNotFindException;
 import com.utn.tesis.model.User;
 import com.utn.tesis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ public class UserService {
         User newUser=new User();
         //Check if the email is used
         if(emailInUse.containsKey(1)){
-            throw  new EmailExistException("EMAIL in use.");
+            throw  new EmailExistException();
         }else{
             return  newUser =userRepository.save(user);
         }
@@ -54,5 +56,22 @@ public class UserService {
            rtaMap.put(-1,new User());
         }
         return rtaMap;
+    }
+
+    public User login(User userLogging) {
+        Map<Integer,User> userSeek= this.findUserByEmail(userLogging.getEmail());
+        User user = new User();
+        if(userSeek.containsKey(1)){
+            User auxUser=userSeek.get(1);
+
+            if(auxUser.getPassword().equalsIgnoreCase(userLogging.getPassword())) {
+                user = auxUser;
+            }else{
+                throw  new InvalidUserOrPasswordException();
+            }
+        }else {
+            throw new UserNotFindException();
+        }
+        return user;
     }
 }

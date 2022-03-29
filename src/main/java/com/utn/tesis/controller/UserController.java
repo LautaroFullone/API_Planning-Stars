@@ -25,7 +25,11 @@ public class UserController {
         User usr = userService.createUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(usr);
     }
-
+    @PostMapping("/login")
+    public ResponseEntity login(@RequestBody User userLogging){
+        User finalUser = userService.login(userLogging);
+        return ResponseEntity.status(HttpStatus.OK).body(finalUser);
+    }
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
         List<User> userList = userService.getUsers();

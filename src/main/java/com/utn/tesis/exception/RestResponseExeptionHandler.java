@@ -2,6 +2,8 @@ package com.utn.tesis.exception;
 
 
 import com.utn.tesis.exception.types.EmailExistException;
+import com.utn.tesis.exception.types.InvalidUserOrPasswordException;
+import com.utn.tesis.exception.types.UserNotFindException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,6 +40,21 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     public ResponseEntity<Object> handlerEmailExist(EmailExistException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
         errors.add("This Email is already in use ,please try with another ");
+        ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }//Invalid EMAIL || PASSWORD
+    @ExceptionHandler({InvalidUserOrPasswordException.class})
+    public ResponseEntity<Object> handlerEmailExist(InvalidUserOrPasswordException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The Password or Email are incorrect ,pleas try again. ");
+        ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
+    //USER Not FIND
+    @ExceptionHandler({UserNotFindException.class})
+    public ResponseEntity<Object> handlerEmailExist(UserNotFindException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The User do not Exist");
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
