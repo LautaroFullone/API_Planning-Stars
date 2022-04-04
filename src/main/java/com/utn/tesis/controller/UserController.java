@@ -36,16 +36,16 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity createUser(@RequestBody User user) throws EmailExistException {
-        User usr = userService.createUser(user);
+    public ResponseEntity register(@RequestBody User user) throws EmailExistException {
+        User usr = userService.registerUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(usr);
     }
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User userLogging) throws JsonProcessingException {
         User finalUser = userService.login(userLogging);
             return ResponseEntity.ok(LoginResponseDto.builder().token(this.generateToken(finalUser)).build());
     }
-
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
@@ -57,7 +57,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK)
                     .header("X-Total-Elements", Integer.toString(userList.size()))
                     .body(userList);
-
     }
 
     public String generateToken(User user) throws JsonProcessingException {
