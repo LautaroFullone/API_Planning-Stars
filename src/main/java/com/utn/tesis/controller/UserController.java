@@ -45,7 +45,12 @@ public class UserController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User userLogging) throws JsonProcessingException {
         User finalUser = userService.login(userLogging);
-            return ResponseEntity.ok(LoginResponseDto.builder().token(this.generateToken(finalUser)).build());
+        String userToken = this.generateToken(finalUser);
+
+        return ResponseEntity.ok(LoginResponseDto.builder()
+                .userDetails(finalUser)
+                .token(userToken)
+                .build());
     }
 
     @GetMapping
