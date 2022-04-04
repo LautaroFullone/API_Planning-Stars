@@ -2,7 +2,6 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.exception.types.EmailExistException;
 import com.utn.tesis.exception.types.InvalidUserOrPasswordException;
-import com.utn.tesis.exception.types.UserNotFindException;
 import com.utn.tesis.model.User;
 import com.utn.tesis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
