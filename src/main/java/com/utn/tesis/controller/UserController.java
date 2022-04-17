@@ -23,6 +23,7 @@ import java.util.stream.Collectors;
 
 import static com.utn.tesis.util.UTIL_CONSTANT.JWT_SECRET;
 
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -36,16 +37,21 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity createUser(@RequestBody User user) throws EmailExistException {
-        User usr = userService.createUser(user);
+    public ResponseEntity register(@RequestBody User user) throws EmailExistException {
+        User usr = userService.registerUser(user);
         return ResponseEntity.status(HttpStatus.OK).body(usr);
     }
+
     @PostMapping("/login")
     public ResponseEntity login(@RequestBody User userLogging) throws JsonProcessingException {
         User finalUser = userService.login(userLogging);
-            return ResponseEntity.ok(LoginResponseDto.builder().token(this.generateToken(finalUser)).build());
-    }
+        String userToken = this.generateToken(finalUser);
 
+        return ResponseEntity.ok(LoginResponseDto.builder()
+                .userDetails(finalUser)
+                .token(userToken)
+                .build());
+    }
 
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
@@ -57,7 +63,6 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.OK)
                     .header("X-Total-Elements", Integer.toString(userList.size()))
                     .body(userList);
-
     }
 
     public String generateToken(User user) throws JsonProcessingException {

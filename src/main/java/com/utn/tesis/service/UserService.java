@@ -2,7 +2,6 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.exception.types.EmailExistException;
 import com.utn.tesis.exception.types.InvalidUserOrPasswordException;
-import com.utn.tesis.exception.types.UserNotFindException;
 import com.utn.tesis.model.User;
 import com.utn.tesis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,18 +25,16 @@ public class UserService {
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public User createUser(User user) throws EmailExistException {
-       String encodesPass= this.passwordEncoder.encode(user.getPassword());
-       user.setPassword(encodesPass);
+    public User registerUser(User user) throws EmailExistException {
+        String encodesPass = this.passwordEncoder.encode(user.getPassword());
+        user.setPassword(encodesPass);
         Map<Integer,User> emailInUse = this.findUserByEmail(user.getEmail());
-        User newUser=new User();
-        //Check if the email is used
-        if(emailInUse.containsKey(1)){
-            throw  new EmailExistException();
-        }else{
-            return  newUser =userRepository.save(user);
-        }
 
+        //Check if the email is used
+        if(emailInUse.containsKey(1))
+            throw new EmailExistException();
+        else
+            return userRepository.save(user);
     }
 
     public List<User> getUsers() {
@@ -62,6 +59,7 @@ public class UserService {
         }
         return rtaMap;
     }
+
     public User login(User userLogging) {
         Map<Integer,User> userSeek= this.findUserByEmail(userLogging.getEmail());
         User user = new User();
