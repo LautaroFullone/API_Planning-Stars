@@ -39,4 +39,5 @@ public class User {
    private List<Party> partiesList;
 
 
+
 }
