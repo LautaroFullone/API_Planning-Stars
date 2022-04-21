@@ -24,7 +24,7 @@ public class UserStory {
     private Integer id;
 
     private String name;
-    private TextArea description;
+    private String description;
     private Integer storyPoint;
     private String sprint;
     private String workArea;

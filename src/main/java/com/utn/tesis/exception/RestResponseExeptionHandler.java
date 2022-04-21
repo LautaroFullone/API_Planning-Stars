@@ -1,9 +1,7 @@
 package com.utn.tesis.exception;
 
 
-import com.utn.tesis.exception.types.EmailExistException;
-import com.utn.tesis.exception.types.InvalidUserOrPasswordException;
-import com.utn.tesis.exception.types.UserNotFoundException;
+import com.utn.tesis.exception.types.*;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -54,12 +52,60 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
 
-    //USER Not FIND
+    //USER Not Found
     @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity<Object> handleUserNorFound(UserNotFoundException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
         errors.add("The User do not exist.");
         ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
+    //PARTY Not Found
+    @ExceptionHandler({PartyNotFoundException.class})
+    public ResponseEntity<Object> handleUserNorFound(PartyNotFoundException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The Party do not exist.");
+        ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
+    //US Not Found
+    @ExceptionHandler({UsNotFoundException.class})
+    public ResponseEntity<Object> handleUserNorFound(UsNotFoundException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The Us do not exist");
+        ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
+    //Not Match US
+    @ExceptionHandler({UsDoNotMatchException.class})
+    public ResponseEntity<Object> handleUserNorFound(UsDoNotMatchException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The id Of the UserStory Do not Match.");
+        ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
+    //Us Not Found in the PARTY
+    @ExceptionHandler({UsNotInThePartyException.class})
+    public ResponseEntity<Object> handleUserNorFound(UsNotInThePartyException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The Us is not present in the Party.");
+        ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
+    //id not match
+    @ExceptionHandler({idNotMatchException.class})
+    public ResponseEntity<Object> handleUserNorFound(idNotMatchException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The ID DO NOT MATCH");
+        ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
+    //US Name Repeted
+    @ExceptionHandler({usNameRepetedException.class})
+    public ResponseEntity<Object> handleUserNorFound(usNameRepetedException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The us name is un USE, please try with other.");
+        ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
 }
