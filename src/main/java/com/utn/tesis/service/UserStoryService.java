@@ -38,9 +38,10 @@ public class UserStoryService {
         return userStoryepository.findAll();
     }
 
-    public void creatUs(UserStory userStory) {
-        userStoryepository.save(userStory);
+    public UserStory creatUs(UserStory userStory) {
+       return userStoryepository.save(userStory);
     }
+
     public void deleteUs(Integer idUS) {
         UserStory us= this.existUSByID(idUS);
         userStoryepository.deleteById(us.getId());
@@ -49,8 +50,6 @@ public class UserStoryService {
     public void modifyUs(Integer idUs ,UserStory userStory ,Party parti) {
         UserStory usModify ;
         usModify=this.existUSByID(idUs);
-        System.out.println(usModify.getId());
-        System.out.println(usModify.getParty().getId());
         if(usModify.getId() != userStory.getId() ){
             throw new UsDoNotMatchException();
         }else {
@@ -58,7 +57,5 @@ public class UserStoryService {
             usModify.setParty(parti);
         }
         userStoryepository.save(usModify);
-
-
     }
 }
