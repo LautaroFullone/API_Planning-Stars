@@ -23,7 +23,11 @@ public class UserStoryController {
         this.userStoryService = userStoryService;
     }
 //-------------------------------------------- P O S T -----------------------------------------------------------------
-
+    @PostMapping
+    public ResponseEntity<UserStory>addUserStory(@RequestBody UserStory us){
+      UserStory userStory= userStoryService.creatUs(us);
+      return ResponseEntity.ok(userStory);
+    }
 
 
 // -------------------------------------------- G E T ------------------------------------------------------------------
@@ -38,7 +42,13 @@ public ResponseEntity<List<UserStory>> getUsers() {
                 .header("X-Total-Elements", Integer.toString(usList.size()))
                 .body(usList);
 }
-// -------------------------------------------- D E L E T --------------------------------------------------------------
 
+// -------------------------------------------- D E L E T --------------------------------------------------------------
+@DeleteMapping("/{idUS}")
+public  ResponseEntity deleteParty(@PathVariable Integer idUS){
+    userStoryService.deleteUs(idUS);
+
+    return ResponseEntity.ok().build();
+}
 
 }

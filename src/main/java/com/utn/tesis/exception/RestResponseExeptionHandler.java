@@ -108,4 +108,12 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
+    //US Repeated in the party
+    @ExceptionHandler({UsAlreadyInThePartyException.class})
+    public ResponseEntity<Object> handleUserNorFound(UsAlreadyInThePartyException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add("The userStory is already in the party.");
+        ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
 }

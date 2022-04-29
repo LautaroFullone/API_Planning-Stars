@@ -64,16 +64,16 @@ public class PartyController {
                     .body(usList);
     }
 // -------------------------------------------- P U T ------------------------------------------------------------------
-    @PutMapping("/join/{idUser}/{idParty}")
+    @PutMapping("/{idParty}/user/{idUser}")
     public void addUserToParty(@PathVariable Integer idUser,@PathVariable String idParty){
         partyService.addUserToParty(idUser,idParty);
     }
 
-    @PutMapping("/{idParty}/userstory")
-    public void addUserStoryToParty(@PathVariable String idParty,@RequestBody UserStory userStory){
+    @PutMapping("/{idParty}/us/{userStory}")
+    public void addUserStoryToParty(@PathVariable String idParty,@PathVariable Integer userStory){
         partyService.adduserStoryToParty(idParty,userStory);
     }
-    @PutMapping("/{idParty}/userstory/{idUs}")
+    @PutMapping("/{idParty}/userstory/{idUs}") //todo agregar logica para idus
     public void modifyUs(@PathVariable Integer idUs,@RequestBody UserStory userStory,@PathVariable String idParty){
         partyService.modifyUs(idUs,userStory,idParty);
     }
@@ -84,10 +84,5 @@ public class PartyController {
 
         return ResponseEntity.ok().build();
     }
-    @DeleteMapping("/userstory/{idUS}")
-    public  ResponseEntity deleteParty(@PathVariable Integer idUS){
-        partyService.deleteUs(idUS);
 
-        return ResponseEntity.ok().build();
-    }
 }

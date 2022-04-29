@@ -1,6 +1,5 @@
 package com.utn.tesis.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -8,9 +7,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.awt.*;
-import java.util.Collection;
-import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -28,7 +24,7 @@ public class UserStory {
     private Integer storyPoint;
     private String sprint;
     private String workArea;
-    private String stoyWritter;
+    private String storyWritter;
     private String fileLink;
 
     @JsonIgnore

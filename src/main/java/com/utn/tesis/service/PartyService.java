@@ -1,9 +1,6 @@
 package com.utn.tesis.service;
 
-import com.utn.tesis.exception.types.InvalidUserOrPasswordException;
-import com.utn.tesis.exception.types.PartyNotFoundException;
-import com.utn.tesis.exception.types.UsNotInThePartyException;
-import com.utn.tesis.exception.types.usNameRepetedException;
+import com.utn.tesis.exception.types.*;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
@@ -12,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class PartyService {
@@ -28,8 +26,8 @@ public class PartyService {
     }
 
     public Party addParty(Party party) {
-        System.out.println(party);
-        return partyRepostory.save(party);
+        party.setId(UUID.randomUUID().toString().toUpperCase().substring(0,6));
+       return partyRepostory.save(party);
     }
 
     public List<Party> getParties() {
@@ -73,14 +71,29 @@ public class PartyService {
         return part.getUserList();
     }
 
-    public void adduserStoryToParty(String idParty, UserStory userStory) {
+    public void adduserStoryToParty(String idParty, Integer userStory) {
         Party parti=this.existPartyByID(idParty);
-        parti.getUserStories().add(userStory);
-        //Creat US
-        userStoryService.creatUs(userStory);
+        //Get US
+        UserStory usCreated= userStoryService.existUSByID(userStory);
+        boolean usInParty=this.existUsInParty(parti.getUserStories(),usCreated);
+        if(usInParty){
+            throw new UsAlreadyInThePartyException();
+        }
+
+        //add to the party
+        parti.getUserStories().add(usCreated);
         //Save changes in Userstory
-        userStoryService.addUserstoryToParty(parti,userStory.getId());
+        userStoryService.addUserstoryToParty(parti,userStory);
         partyRepostory.save(parti);
+    }
+    public boolean existUsInParty(List<UserStory> userStoryList,UserStory userStory){
+        boolean rta=false;
+        for (UserStory us:userStoryList) {
+            if(us.getId() == userStory.getId()){
+                rta=true;
+            }
+        }
+        return  rta;
     }
 
     public List<UserStory> getPartyUsList(String idParty) {
