@@ -1,5 +1,7 @@
 package com.utn.tesis.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -7,6 +9,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -26,4 +29,15 @@ public class User {
     private String email;
     @NotNull(message = "This Field is mandatory")
     private String password;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(
+            name = "user_FK",
+            joinColumns = @JoinColumn(name = "users_id"),
+            inverseJoinColumns = @JoinColumn(name = "parties_id"))
+   private List<Party> partiesList;
+
+
+
 }

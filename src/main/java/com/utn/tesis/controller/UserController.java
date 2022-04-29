@@ -4,7 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.utn.tesis.exception.types.EmailExistException;
 import com.utn.tesis.model.LoginResponseDto;
+import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
+import com.utn.tesis.model.UserModify;
 import com.utn.tesis.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -35,6 +37,8 @@ public class UserController {
         this.userService = userService;
         this.objectMapper=objectMapper;
     }
+//-------------------------------------------- P O S T -----------------------------------------------------------------
+
 
     @PostMapping("/register")
     public ResponseEntity register(@RequestBody User user) throws EmailExistException {
@@ -52,7 +56,7 @@ public class UserController {
                 .token(userToken)
                 .build());
     }
-
+//-------------------------------------------- G E T -------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {
         List<User> userList = userService.getUsers();
@@ -64,7 +68,30 @@ public class UserController {
                     .header("X-Total-Elements", Integer.toString(userList.size()))
                     .body(userList);
     }
+    @GetMapping("/{iduser}/parties")
+    public ResponseEntity<List<Party>>getUserParties (@PathVariable Integer iduser) {
+        List<Party> partyList = userService.getPartyList(iduser);
 
+        if(partyList.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.status(HttpStatus.OK)
+                    .header("X-Total-Elements", Integer.toString(partyList.size()))
+                    .body(partyList);
+    }
+    @GetMapping("/{userId}")
+    public ResponseEntity<User> getUserById(@PathVariable Integer userId ){
+        User searchUser = userService.getUserById(userId);
+        return ResponseEntity.ok(searchUser);
+    }
+// -------------------------------------------- D E L E T --------------------------------------------------------------
+// -------------------------------------------- P U T ------------------------------------------------------------------
+    @PutMapping("/{idUser}")
+    public ResponseEntity<User> modifyUser(@PathVariable Integer idUser,@RequestBody UserModify newUser){
+        User usr=userService.modifyUser(idUser,newUser);
+        return ResponseEntity.ok(usr);
+    }
+//------------------------------------------------- T O K E N ----------------------------------------------------------
     public String generateToken(User user) throws JsonProcessingException {
         String role ="USER";
         //parte de spring security que permite la utilizacion de roles jwt
