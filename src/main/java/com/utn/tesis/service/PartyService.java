@@ -4,11 +4,13 @@ import com.utn.tesis.exception.types.*;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
+import com.utn.tesis.model.dto.PlayerDto;
 import com.utn.tesis.repository.PartyRepostory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -75,9 +77,15 @@ public class PartyService {
 
     }
 
-    public List<User> getPartyUserList(String idParty) {
-        Party part=this.existPartyByID(idParty);
-        return part.getUserList();
+    public List<PlayerDto> getPartyPlayersList(String idParty) {
+        Party part = this.existPartyByID(idParty);
+        List<User> userList = part.getUserList();
+        List<PlayerDto> playersList = new ArrayList<>();
+
+        if(!userList.isEmpty())
+            playersList = userList.stream().map(u -> PlayerDto.from(u)).toList();
+
+        return playersList;
     }
 
     public void adduserStoryToParty(String idParty, Integer userStory) {

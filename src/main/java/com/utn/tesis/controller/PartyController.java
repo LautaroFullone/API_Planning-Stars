@@ -1,9 +1,9 @@
 package com.utn.tesis.controller;
 
-import com.utn.tesis.exception.types.EmailExistException;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
+import com.utn.tesis.model.dto.PlayerDto;
 import com.utn.tesis.service.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -49,14 +49,14 @@ public class PartyController {
                     .body(partyList);
     }
     @GetMapping("/{idParty}/users")
-    public ResponseEntity<List<User>> getPartyUserList(@PathVariable String idParty) {
-        List<User> userList = partyService.getPartyUserList(idParty);
-        if(userList.isEmpty())
+    public ResponseEntity<List<PlayerDto>> getPartyPlayersList(@PathVariable String idParty) {
+        List<PlayerDto> playersList = partyService.getPartyPlayersList(idParty);
+        if(playersList.isEmpty())
             return ResponseEntity.noContent().build();
         else
             return ResponseEntity.status(HttpStatus.OK)
-                    .header("X-Total-Elements", Integer.toString(userList.size()))
-                    .body(userList);
+                    .header("X-Total-Elements", Integer.toString(playersList.size()))
+                    .body(playersList);
     }
     @GetMapping("/{idParty}/userstories")
     public ResponseEntity<List<UserStory>> getPartyUsList(@PathVariable String idParty) {
