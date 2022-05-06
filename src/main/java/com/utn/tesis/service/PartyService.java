@@ -30,6 +30,11 @@ public class PartyService {
        return partyRepostory.save(party);
     }
 
+    public Party getPartyById(String idParty) {
+        return this.partyRepostory.findById(idParty)
+                .orElseThrow(()-> new PartyNotFoundException());
+    }
+
     public List<Party> getParties() {
         List<Party> parties = partyRepostory.findAll();
         return  parties;
@@ -43,13 +48,13 @@ public class PartyService {
         }
     }
     public Party existPartyByID(String idParty){
-        Party party2;
+        Party p;
         if(partyRepostory.existsById(idParty)){
-            party2 =partyRepostory.getById(idParty);
+            p =partyRepostory.getById(idParty);
         }else {
             throw new PartyNotFoundException();
         }
-        return party2;
+        return p;
     }
 
     public void addUserToParty(Integer idUser, String idParty) {
@@ -143,5 +148,4 @@ public class PartyService {
         return rta;
 
     }
-
 }
