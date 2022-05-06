@@ -8,6 +8,8 @@ import com.utn.tesis.repository.PartyRepostory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +29,8 @@ public class PartyService {
 
     public Party addParty(Party party) {
         party.setId(UUID.randomUUID().toString().toUpperCase().substring(0,6));
+        party.setIsActive(true);
+        party.setCreatedDate(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
        return partyRepostory.save(party);
     }
 
