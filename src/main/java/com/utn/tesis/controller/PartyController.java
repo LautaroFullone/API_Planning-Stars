@@ -48,7 +48,7 @@ public class PartyController {
                     .header("X-Total-Elements", Integer.toString(partyList.size()))
                     .body(partyList);
     }
-    @GetMapping("/{idParty}/users")
+    @GetMapping("/{idParty}/players")
     public ResponseEntity<List<PlayerDto>> getPartyPlayersList(@PathVariable String idParty) {
         List<PlayerDto> playersList = partyService.getPartyPlayersList(idParty);
         if(playersList.isEmpty())
