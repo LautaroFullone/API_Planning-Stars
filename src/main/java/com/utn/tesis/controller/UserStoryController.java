@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/us")
+@RequestMapping("/userStory")
 public class UserStoryController {
 
     private UserStoryService userStoryService;

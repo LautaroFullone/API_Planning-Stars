@@ -4,10 +4,14 @@ import com.utn.tesis.exception.types.*;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
+import com.utn.tesis.model.dto.PlayerDto;
 import com.utn.tesis.repository.PartyRepostory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,7 +31,14 @@ public class PartyService {
 
     public Party addParty(Party party) {
         party.setId(UUID.randomUUID().toString().toUpperCase().substring(0,6));
+        party.setIsActive(true);
+        party.setCreatedDate(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
        return partyRepostory.save(party);
+    }
+
+    public Party getPartyById(String idParty) {
+        return this.partyRepostory.findById(idParty)
+                .orElseThrow(()-> new PartyNotFoundException());
     }
 
     public List<Party> getParties() {
@@ -43,13 +54,13 @@ public class PartyService {
         }
     }
     public Party existPartyByID(String idParty){
-        Party party2;
+        Party p;
         if(partyRepostory.existsById(idParty)){
-            party2 =partyRepostory.getById(idParty);
+            p =partyRepostory.getById(idParty);
         }else {
             throw new PartyNotFoundException();
         }
-        return party2;
+        return p;
     }
 
     public void addUserToParty(Integer idUser, String idParty) {
@@ -66,9 +77,15 @@ public class PartyService {
 
     }
 
-    public List<User> getPartyUserList(String idParty) {
-        Party part=this.existPartyByID(idParty);
-        return part.getUserList();
+    public List<PlayerDto> getPartyPlayersList(String idParty) {
+        Party part = this.existPartyByID(idParty);
+        List<User> userList = part.getUserList();
+        List<PlayerDto> playersList = new ArrayList<>();
+
+        if(!userList.isEmpty())
+            playersList = userList.stream().map(u -> PlayerDto.from(u)).toList();
+
+        return playersList;
     }
 
     public void adduserStoryToParty(String idParty, Integer userStory) {
@@ -143,5 +160,4 @@ public class PartyService {
         return rta;
 
     }
-
 }
