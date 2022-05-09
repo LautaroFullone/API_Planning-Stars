@@ -27,7 +27,7 @@ public class UserStory {
     private String workArea;
     private String storyWritter;
     private String fileLink;
-    private boolean isActive = false;
+    private boolean isActive = true;
 
     @JsonIgnore
     @ManyToOne
