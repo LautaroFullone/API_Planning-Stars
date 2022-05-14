@@ -20,19 +20,11 @@ public class UserStoryService {
     }
 
     public void addUserstoryToParty(Party parti, Integer id) {
-        UserStory us=this.existUSByID(id);
+        UserStory us=userStoryepository.findById(id).orElseThrow(()-> new UsNotFoundException());
         us.setParty(parti);
         userStoryepository.save(us);
     }
-    public UserStory existUSByID(Integer idUS){
-        UserStory us;
-        if(userStoryepository.existsById(idUS)){
-            us=userStoryepository.getById(idUS);
-        }else {
-            throw new UsNotFoundException();
-        }
-        return us;
-    }
+
 
     public List<UserStory> getUs() {
         return userStoryepository.findAll();
@@ -43,19 +35,25 @@ public class UserStoryService {
     }
 
     public void deleteUs(Integer idUS) {
-        UserStory us= this.existUSByID(idUS);
+        UserStory us= userStoryepository.findById(idUS).orElseThrow(()-> new UsNotFoundException());
         userStoryepository.deleteById(us.getId());
     }
 
-    public void modifyUs(Integer idUs ,UserStory userStory ,Party parti) {
-        UserStory usModify ;
-        usModify=this.existUSByID(idUs);
-        if(usModify.getId() != userStory.getId() ){
+    public UserStory getUserStory(Integer usId){
+        return userStoryepository.findById(usId).orElseThrow(()-> new UsNotFoundException());
+    }
+
+    public UserStory modifyUs(Integer idUs ,UserStory userStory) {
+        UserStory oldUs;
+        Party usParty;
+        oldUs=userStoryepository.findById(idUs).orElseThrow(()->new UsNotFoundException());
+        usParty=oldUs.getParty();
+
+        if(idUs != userStory.getId()){
             throw new UsDoNotMatchException();
-        }else {
-            usModify = userStory;
-            usModify.setParty(parti);
         }
-        userStoryepository.save(usModify);
+        oldUs = userStory;
+        oldUs.setParty(usParty);
+        return userStoryepository.save(oldUs);
     }
 }

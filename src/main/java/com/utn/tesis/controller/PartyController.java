@@ -78,11 +78,7 @@ public class PartyController {
     public void addUserStoryToParty(@PathVariable String idParty,@PathVariable Integer userStory){
         partyService.adduserStoryToParty(idParty,userStory);
     }
-   /* @PutMapping("/{idParty}/userstory/{idUs}")
 
-    public void modifyUs(@PathVariable Integer idUs,@RequestBody UserStory userStory,@PathVariable String idParty){
-        partyService.modifyUs(idUs,userStory,idParty);
-    } */ // TODO solo tiene que recibir el id de la US
 // -------------------------------------------- D E L E T --------------------------------------------------------------
     @DeleteMapping("/{idParty}")
     public  ResponseEntity deleteParty(@PathVariable String idParty){

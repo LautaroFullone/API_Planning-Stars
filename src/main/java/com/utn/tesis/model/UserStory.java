@@ -33,5 +33,15 @@ public class UserStory {
     @ManyToOne
     @JoinColumn(name = "id_party")
     private Party party;
+
+    @Override
+    public String toString() {
+        return "UserStory{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", isActive=" + isActive +
+                ", party=" + party +
+                '}';
+    }
 }
 
