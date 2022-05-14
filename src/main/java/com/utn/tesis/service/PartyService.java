@@ -53,19 +53,11 @@ public class PartyService {
             throw new PartyNotFoundException();
         }
     }
-    public Party existPartyByID(String idParty){
-        Party p;
-        if(partyRepostory.existsById(idParty)){
-            p =partyRepostory.getById(idParty);
-        }else {
-            throw new PartyNotFoundException();
-        }
-        return p;
-    }
+
 
     public void addUserToParty(Integer idUser, String idParty) {
         //If the party or the user do not Exist throw Exception before making changes
-        Party party =this.existPartyByID(idParty);
+        Party party =partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
         User user=userService.getUserById(idUser);
 
         //Save the party in the USER
@@ -78,7 +70,7 @@ public class PartyService {
     }
 
     public List<PlayerDto> getPartyPlayersList(String idParty) {
-        Party part = this.existPartyByID(idParty);
+        Party part = partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
         List<User> userList = part.getUserList();
         List<PlayerDto> playersList = new ArrayList<>();
 
@@ -89,9 +81,9 @@ public class PartyService {
     }
 
     public void adduserStoryToParty(String idParty, Integer userStory) {
-        Party parti=this.existPartyByID(idParty);
+        Party parti=partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
         //Get US
-        UserStory usCreated= userStoryService.existUSByID(userStory);
+        UserStory usCreated= userStoryService.getUserStory(userStory);
         boolean usInParty=this.existUsInParty(parti.getUserStories(),usCreated);
         if(usInParty){
             throw new UsAlreadyInThePartyException();
@@ -114,7 +106,7 @@ public class PartyService {
     }
 
     public List<UserStory> getPartyUsList(String idParty) {
-        Party part=this.existPartyByID(idParty);
+        Party part=partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
         return part.getUserStories();
     }
 
@@ -122,18 +114,7 @@ public class PartyService {
         userStoryService.deleteUs(idUS);
     }
 
-    public void modifyUs(Integer idUs, UserStory userStory,String idParty) {
-        Party parti=this.existPartyByID(idParty);
 
-        if (usNameRepeated(parti,userStory.getName(),idUs)){
-            throw new usNameRepetedException();
-        }
-        if(this.isUsInTheParty(parti,idUs)) {
-            userStoryService.modifyUs(idUs, userStory, parti);
-        }else {
-            throw new UsNotInThePartyException();
-        }
-    }
     public boolean usNameRepeated(Party parti,String newName,Integer idUser ){
         boolean rta =false;
         List<UserStory> userStories=parti.getUserStories();
