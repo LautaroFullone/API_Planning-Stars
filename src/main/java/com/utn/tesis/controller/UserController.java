@@ -101,7 +101,8 @@ public class UserController {
                 .setId("JWT")
                 .setSubject(user.getEmail())
                 .claim("user",objectMapper.writeValueAsString(user))
-                .claim("authorities",grantedAuthorities.stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .claim("authorities",grantedAuthorities.stream().map(GrantedAuthority::getAuthority)
+                        .collect(Collectors.toList()))
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + 180000000 ))
                 .signWith(SignatureAlgorithm.HS512, JWT_SECRET.getBytes()).compact();

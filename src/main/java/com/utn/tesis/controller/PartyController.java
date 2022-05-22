@@ -1,14 +1,13 @@
 package com.utn.tesis.controller;
 
-import com.utn.tesis.exception.types.EmailExistException;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
+import com.utn.tesis.model.dto.PlayerDto;
 import com.utn.tesis.service.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,9 +26,15 @@ public class PartyController {
 //-------------------------------------------- P O S T -----------------------------------------------------------------
 
     @PostMapping()
-    public ResponseEntity addParty(@RequestBody Party party)  {
-        Party prty = partyService.addParty(party);
-        return ResponseEntity.status(HttpStatus.OK).body(prty);
+    public ResponseEntity addParty(@RequestBody Party partyToAdd)  {
+        Party party = partyService.addParty(partyToAdd);
+        return ResponseEntity.status(HttpStatus.OK).body(party);
+    }
+
+    @GetMapping("/{partyId}")
+    public ResponseEntity<Party> getPartyById(@PathVariable String idParty ){
+        Party searchParty = partyService.getPartyById(idParty);
+        return ResponseEntity.ok(searchParty);
     }
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
@@ -43,15 +48,15 @@ public class PartyController {
                     .header("X-Total-Elements", Integer.toString(partyList.size()))
                     .body(partyList);
     }
-    @GetMapping("/{idParty}/users")
-    public ResponseEntity<List<User>> getPartyUserList(@PathVariable String idParty) {
-        List<User> userList = partyService.getPartyUserList(idParty);
-        if(userList.isEmpty())
+    @GetMapping("/{idParty}/players")
+    public ResponseEntity<List<PlayerDto>> getPartyPlayersList(@PathVariable String idParty) {
+        List<PlayerDto> playersList = partyService.getPartyPlayersList(idParty);
+        if(playersList.isEmpty())
             return ResponseEntity.noContent().build();
         else
             return ResponseEntity.status(HttpStatus.OK)
-                    .header("X-Total-Elements", Integer.toString(userList.size()))
-                    .body(userList);
+                    .header("X-Total-Elements", Integer.toString(playersList.size()))
+                    .body(playersList);
     }
     @GetMapping("/{idParty}/userstories")
     public ResponseEntity<List<UserStory>> getPartyUsList(@PathVariable String idParty) {
@@ -69,14 +74,11 @@ public class PartyController {
         partyService.addUserToParty(idUser,idParty);
     }
 
-    @PutMapping("/{idParty}/us/{userStory}")
+    @PutMapping("/{idParty}/userstory/{userStory}")
     public void addUserStoryToParty(@PathVariable String idParty,@PathVariable Integer userStory){
         partyService.adduserStoryToParty(idParty,userStory);
     }
-    @PutMapping("/{idParty}/userstory/{idUs}") //todo agregar logica para idus
-    public void modifyUs(@PathVariable Integer idUs,@RequestBody UserStory userStory,@PathVariable String idParty){
-        partyService.modifyUs(idUs,userStory,idParty);
-    }
+
 // -------------------------------------------- D E L E T --------------------------------------------------------------
     @DeleteMapping("/{idParty}")
     public  ResponseEntity deleteParty(@PathVariable String idParty){

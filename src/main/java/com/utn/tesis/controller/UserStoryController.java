@@ -13,7 +13,7 @@ import java.util.List;
 
 @CrossOrigin(origins = "http://localhost:4200")
 @RestController
-@RequestMapping("/us")
+@RequestMapping("/userStory")
 public class UserStoryController {
 
     private UserStoryService userStoryService;
@@ -42,7 +42,12 @@ public ResponseEntity<List<UserStory>> getUsers() {
                 .header("X-Total-Elements", Integer.toString(usList.size()))
                 .body(usList);
 }
-
+// -------------------------------------------- P U T ------------------------------------------------------------------
+ @PutMapping("/{usId}")
+ public  ResponseEntity<UserStory> modifyUserStory(@PathVariable Integer usId,@RequestBody UserStory newUserStory){
+       UserStory userStory= userStoryService.modifyUs(usId,newUserStory);
+        return ResponseEntity.ok(userStory);
+ }
 // -------------------------------------------- D E L E T --------------------------------------------------------------
 @DeleteMapping("/{idUS}")
 public  ResponseEntity deleteParty(@PathVariable Integer idUS){
