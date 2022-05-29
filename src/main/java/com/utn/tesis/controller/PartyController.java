@@ -31,7 +31,7 @@ public class PartyController {
         return ResponseEntity.status(HttpStatus.OK).body(party);
     }
 
-    @GetMapping("/{partyId}")
+    @GetMapping("/{idParty}")
     public ResponseEntity<Party> getPartyById(@PathVariable String idParty ){
         Party searchParty = partyService.getPartyById(idParty);
         return ResponseEntity.ok(searchParty);
@@ -70,20 +70,21 @@ public class PartyController {
     }
 // -------------------------------------------- P U T ------------------------------------------------------------------
     @PutMapping("/{idParty}/user/{idUser}")
-    public void addUserToParty(@PathVariable Integer idUser,@PathVariable String idParty){
+    public ResponseEntity addUserToParty(@PathVariable Integer idUser,@PathVariable String idParty){
         partyService.addUserToParty(idUser,idParty);
+        return ResponseEntity.ok().build();
     }
 
     @PutMapping("/{idParty}/userstory/{userStory}")
-    public void addUserStoryToParty(@PathVariable String idParty,@PathVariable Integer userStory){
+    public ResponseEntity addUserStoryToParty(@PathVariable String idParty,@PathVariable Integer userStory){
         partyService.adduserStoryToParty(idParty,userStory);
+        return ResponseEntity.ok().build();
     }
 
 // -------------------------------------------- D E L E T --------------------------------------------------------------
     @DeleteMapping("/{idParty}")
-    public  ResponseEntity deleteParty(@PathVariable String idParty){
+    public ResponseEntity deleteParty(@PathVariable String idParty){
         partyService.deleteParty(idParty);
-
         return ResponseEntity.ok().build();
     }
 
