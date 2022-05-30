@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
+import java.awt.*;
 
 @Data
 @NoArgsConstructor
@@ -21,7 +23,11 @@ public class UserStory {
     private Integer id;
     private String tag;
     private String name;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
+    @Type(type = "org.hibernate.type.TextType")
     private String description;
+
     private Integer storyPoints;
     private String sprint;
     private String workArea;

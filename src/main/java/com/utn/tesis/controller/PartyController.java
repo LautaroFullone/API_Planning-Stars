@@ -34,7 +34,7 @@ public class PartyController {
     @GetMapping("/{idParty}")
     public ResponseEntity<Party> getPartyById(@PathVariable String idParty ){
         Party searchParty = partyService.getPartyById(idParty);
-        return ResponseEntity.ok(searchParty);
+        return ResponseEntity.status(HttpStatus.OK).body(searchParty);
     }
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
