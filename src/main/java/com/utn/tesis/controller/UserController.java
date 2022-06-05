@@ -56,6 +56,8 @@ public class UserController {
                 .token(userToken)
                 .build());
     }
+
+
 //-------------------------------------------- G E T -------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<List<User>> getUsers() {

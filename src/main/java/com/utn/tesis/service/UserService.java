@@ -37,13 +37,26 @@ public class UserService {
     public User registerUser(User user) throws EmailExistException {
         String encodesPass = this.passwordEncoder.encode(user.getPassword());
         user.setPassword(encodesPass);
-        Map<Integer,User> emailInUse = this.findUserByEmail(user.getEmail());
-
-        //Check if the email is used
-        if(emailInUse.containsKey(1))
-            throw new EmailExistException();
-        else
+        boolean mailInUse=this.existsByEmail(user.getEmail());
+        if(mailInUse){
             return userRepository.save(user);
+        }else {
+            throw new EmailExistException();
+        }
+    }
+
+    /**
+     * Return true if the Mail is not Use
+     * @param email
+     * @return boolean
+     */
+    public boolean existsByEmail(String email) {
+        boolean rta =false;
+        User user = this.getUserByEmail(email);
+        if(user ==null){
+            rta=true;
+        }
+        return rta;
     }
 
     public List<User> getUsers() {
@@ -52,37 +65,30 @@ public class UserService {
     }
 
     /**
-     * Check in the Data Base if the EMAIL is used.Charge a map(Key:[1 ; -1],Value:[ User ]).
-     * @param email String
-     * @return --A map with the User --.If the map contains the key 1:the email is used and charge the User key:-1 the email is free and charge a null User
-     *
+     * Return User with Data or NULL if the mail do not exist
+     * @param mail
+     * @return
      */
-    public Map<Integer,User> findUserByEmail(String email){
-        List<User> usr = userRepository.findByEmail(email);
-        Map<Integer,User> rtaMap= new HashMap<>();
-
-        if(usr.size()>0) {
-          rtaMap.put(1,usr.get(0));
-        }else{
-           rtaMap.put(-1,new User());
-        }
-        return rtaMap;
+    public User getUserByEmail(String mail){
+        User usrRta=userRepository.findByEmail(mail);
+        return  usrRta;
     }
-
     public User login(User userLogging) {
-        Map<Integer,User> userSeek= this.findUserByEmail(userLogging.getEmail());
-        User user = new User();
-        if(userSeek.containsKey(1)){
-            User auxUser=userSeek.get(1);
-            if(this.passwordEncoder.matches(userLogging.getPassword(), auxUser.getPassword())) {
-                user = auxUser;
+        boolean emailExist=this.existsByEmail(userLogging.getEmail());
+        User usr;
+        User usrRta;
+        if(!emailExist){
+            usr=this.getUserByEmail(userLogging.getEmail());
+            if(this.passwordEncoder.matches(userLogging.getPassword(), usr.getPassword())) {
+                usrRta = usr;
             }else{
                 throw  new InvalidUserOrPasswordException();
             }
         }else{
             throw  new InvalidUserOrPasswordException();
         }
-        return user;
+        return usrRta;
+
     }
     public void addPartyToUser(Party party,Integer idUser){
         User usr= this.getUserById(idUser);
