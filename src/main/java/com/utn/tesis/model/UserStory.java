@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -19,14 +20,23 @@ public class UserStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotNull(message = "This Field is mandatory")
     private String tag;
+    @NotNull(message = "This Field is mandatory")
     private String name;
+    @NotNull(message = "This Field is mandatory")
     private String description;
+    @NotNull(message = "This Field is mandatory")
     private Integer storyPoints;
+    @NotNull(message = "This Field is mandatory")
     private String sprint;
+    @NotNull(message = "This Field is mandatory")
     private String workArea;
+    @NotNull(message = "This Field is mandatory")
     private String storyWritter;
+    @NotNull(message = "This Field is mandatory")
     private String fileLink;
+
     private boolean isActive = true;
 
     @JsonIgnore
