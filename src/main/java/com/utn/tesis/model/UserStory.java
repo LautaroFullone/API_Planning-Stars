@@ -26,7 +26,7 @@ public class UserStory {
     private String name;
     @NotNull(message = "This Field is mandatory")
     private String description;
-    @NotNull(message = "This Field is mandatory")
+
     private Integer storyPoints;
     @NotNull(message = "This Field is mandatory")
     private String sprint;
