@@ -25,7 +25,6 @@ import java.util.stream.Collectors;
 
 import static com.utn.tesis.util.UTIL_CONSTANT.JWT_SECRET;
 
-@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/user")
 public class UserController {
