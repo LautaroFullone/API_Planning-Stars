@@ -10,6 +10,7 @@ import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
 import java.awt.*;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
@@ -21,18 +22,26 @@ public class UserStory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @NotNull(message = "This Field is mandatory")
     private String tag;
+    @NotNull(message = "This Field is mandatory")
     private String name;
 
     @Column(columnDefinition = "MEDIUMTEXT")
     @Type(type = "org.hibernate.type.TextType")
+    @NotNull(message = "This Field is mandatory")
     private String description;
 
     private Integer storyPoints;
+    @NotNull(message = "This Field is mandatory")
     private String sprint;
+    @NotNull(message = "This Field is mandatory")
     private String workArea;
+    @NotNull(message = "This Field is mandatory")
     private String storyWritter;
+    @NotNull(message = "This Field is mandatory")
     private String fileLink;
+
     private boolean isActive = true;
 
     @JsonIgnore

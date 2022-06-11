@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @Data
@@ -21,11 +22,15 @@ import java.util.List;
 public class Party {
     @Id
     private String id;
-
+    @NotNull(message = "This Field is mandatory")
     private String name;
+    @NotNull(message = "This Field is mandatory")
     private Integer maxPlayer;
+    @NotNull(message = "This Field is mandatory")
     private Boolean isActive;
+    @NotNull(message = "This Field is mandatory")
     private String createdBy;
+    @NotNull(message = "This Field is mandatory")
     private String createdDate;
 
     @JsonIgnore
