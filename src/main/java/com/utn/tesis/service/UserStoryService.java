@@ -12,48 +12,46 @@ import java.util.List;
 
 @Service
 public class UserStoryService {
-    private UserStoryepository userStoryepository;
+    private UserStoryepository userStoryRepository;
 
     @Autowired
     public UserStoryService(UserStoryepository userStoryepository) {
-        this.userStoryepository = userStoryepository;
+        this.userStoryRepository = userStoryepository;
     }
 
     public void addUserstoryToParty(Party parti, Integer id) {
-        UserStory us=userStoryepository.findById(id).orElseThrow(()-> new UsNotFoundException());
+        UserStory us=userStoryRepository.findById(id).orElseThrow(()-> new UsNotFoundException());
         us.setParty(parti);
-        userStoryepository.save(us);
+        userStoryRepository.save(us);
     }
 
 
     public List<UserStory> getUs() {
-        return userStoryepository.findAll();
+        return userStoryRepository.findAll();
     }
 
     public UserStory creatUs(UserStory userStory) {
-       return userStoryepository.save(userStory);
+       return userStoryRepository.save(userStory);
     }
 
     public void deleteUs(Integer idUS) {
-        UserStory us= userStoryepository.findById(idUS).orElseThrow(()-> new UsNotFoundException());
-        userStoryepository.deleteById(us.getId());
+        UserStory us= userStoryRepository.findById(idUS).orElseThrow(()-> new UsNotFoundException());
+        userStoryRepository.deleteById(us.getId());
     }
 
     public UserStory getUserStory(Integer usId){
-        return userStoryepository.findById(usId).orElseThrow(()-> new UsNotFoundException());
+        return userStoryRepository.findById(usId).orElseThrow(()-> new UsNotFoundException());
     }
 
     public UserStory modifyUs(Integer idUs ,UserStory userStory) {
-        UserStory oldUs;
-        Party usParty;
-        oldUs=userStoryepository.findById(idUs).orElseThrow(()->new UsNotFoundException());
-        usParty=oldUs.getParty();
+        UserStory oldUs = userStoryRepository.findById(idUs).orElseThrow(()->new UsNotFoundException());
+        Party usParty = oldUs.getParty();
 
         if(idUs != userStory.getId()){
             throw new UsDoNotMatchException();
         }
         oldUs = userStory;
         oldUs.setParty(usParty);
-        return userStoryepository.save(oldUs);
+        return userStoryRepository.save(oldUs);
     }
 }
