@@ -19,7 +19,7 @@ import java.util.UUID;
 public class PartyService {
 
     private PartyRepostory partyRepostory;
-    private  UserService userService;
+    private UserService userService;
     private UserStoryService  userStoryService;
 
     @Autowired

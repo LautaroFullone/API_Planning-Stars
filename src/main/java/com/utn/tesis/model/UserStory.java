@@ -5,9 +5,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Type;
 import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import javax.persistence.*;
+import java.awt.*;
 import javax.validation.constraints.NotNull;
 
 @Data
@@ -24,6 +26,9 @@ public class UserStory {
     private String tag;
     @NotNull(message = "This Field is mandatory")
     private String name;
+
+    @Column(columnDefinition = "MEDIUMTEXT")
+    @Type(type = "org.hibernate.type.TextType")
     @NotNull(message = "This Field is mandatory")
     private String description;
 
