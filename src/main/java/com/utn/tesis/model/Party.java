@@ -32,6 +32,9 @@ public class Party {
     private String createdBy;
     @NotNull(message = "This Field is mandatory")
     private String createdDate;
+    @NotNull(message = "This Field is mandatory")
+    private String partyOwnerId;
+
 
     @JsonIgnore
     @ManyToMany(mappedBy = "partiesList")

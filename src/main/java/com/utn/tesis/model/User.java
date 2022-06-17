@@ -21,7 +21,6 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Integer id;
     @NotNull(message = "This Field is mandatory")
     private String name;
