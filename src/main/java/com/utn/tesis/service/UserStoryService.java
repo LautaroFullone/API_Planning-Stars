@@ -4,7 +4,7 @@ import com.utn.tesis.exception.types.UsDoNotMatchException;
 import com.utn.tesis.exception.types.UsNotFoundException;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.UserStory;
-import com.utn.tesis.repository.UserStoryepository;
+import com.utn.tesis.repository.UserStoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,15 +12,15 @@ import java.util.List;
 
 @Service
 public class UserStoryService {
-    private UserStoryepository userStoryRepository;
+    private UserStoryRepository userStoryRepository;
 
     @Autowired
-    public UserStoryService(UserStoryepository userStoryepository) {
+    public UserStoryService(UserStoryRepository userStoryepository) {
         this.userStoryRepository = userStoryepository;
     }
 
     public void addUserstoryToParty(Party parti, Integer id) {
-        UserStory us=userStoryRepository.findById(id).orElseThrow(()-> new UsNotFoundException());
+        UserStory us = userStoryRepository.findById(id).orElseThrow(()-> new UsNotFoundException());
         us.setParty(parti);
         userStoryRepository.save(us);
     }
@@ -34,7 +34,7 @@ public class UserStoryService {
     }
 
     public void deleteUs(Integer idUS) {
-        UserStory us= userStoryRepository.findById(idUS).orElseThrow(()-> new UsNotFoundException());
+        UserStory us = userStoryRepository.findById(idUS).orElseThrow(()-> new UsNotFoundException());
         userStoryRepository.deleteById(us.getId());
     }
 

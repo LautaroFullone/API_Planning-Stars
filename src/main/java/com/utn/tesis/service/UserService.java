@@ -52,14 +52,14 @@ public class UserService {
     }
 
     public User getUserByEmail(String mail){
-        User usrRta=userRepository.findByEmail(mail);
+        User usrRta = userRepository.findByEmail(mail);
         return  usrRta;
     }
 
     public User login(User userLogging) {
         boolean emailExist=this.existsByEmail(userLogging.getEmail());
-        User usr;
-        User usrRta;
+        User usr;  User usrRta;
+
         if(!emailExist){
             usr=this.getUserByEmail(userLogging.getEmail());
             if(this.passwordEncoder.matches(userLogging.getPassword(), usr.getPassword()))
