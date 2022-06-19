@@ -27,32 +27,28 @@ public class UserStoryController {
       UserStory userStory= userStoryService.creatUs(us);
       return ResponseEntity.ok(userStory);
     }
-
-
 // -------------------------------------------- G E T ------------------------------------------------------------------
-@GetMapping
-public ResponseEntity<List<UserStory>> getUsers() {
-    List<UserStory>usList = userStoryService.getUs();
-
-    if(usList.isEmpty())
-        return ResponseEntity.noContent().build();
-    else
-        return ResponseEntity.status(HttpStatus.OK)
+    @GetMapping
+    public ResponseEntity<List<UserStory>> getUsers() {
+        List<UserStory>usList = userStoryService.getUs();
+        if(usList.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.status(HttpStatus.OK)
                 .header("X-Total-Elements", Integer.toString(usList.size()))
                 .body(usList);
-}
-// -------------------------------------------- P U T ------------------------------------------------------------------
- @PutMapping("/{usId}")
- public  ResponseEntity<UserStory> modifyUserStory(@PathVariable Integer usId,@RequestBody UserStory newUserStory){
-       UserStory userStory= userStoryService.modifyUs(usId,newUserStory);
-        return ResponseEntity.ok(userStory);
- }
-// -------------------------------------------- D E L E T --------------------------------------------------------------
-@DeleteMapping("/{idUS}")
-public  ResponseEntity deleteParty(@PathVariable Integer idUS){
-    userStoryService.deleteUs(idUS);
-
-    return ResponseEntity.ok().build();
-}
+    }
+    // -------------------------------------------- P U T ------------------------------------------------------------------
+     @PutMapping("/{userStoryId}")
+     public ResponseEntity<UserStory> modifyUserStory(@PathVariable Integer userStoryId,@RequestBody UserStory newUserStory){
+            UserStory userStory= userStoryService.modifyUs(userStoryId,newUserStory);
+            return ResponseEntity.ok(userStory);
+     }
+    // -------------------------------------------- D E L E T --------------------------------------------------------------
+    @DeleteMapping("/{userStoryId}")
+    public  ResponseEntity deleteParty(@PathVariable Integer userStoryId){
+        userStoryService.deleteUs(userStoryId);
+        return ResponseEntity.ok().build();
+    }
 
 }

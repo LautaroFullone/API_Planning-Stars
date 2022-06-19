@@ -33,7 +33,7 @@ public class PartyService {
         party.setId(UUID.randomUUID().toString().toUpperCase().substring(0,6));
         party.setIsActive(true);
         party.setCreatedDate(new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime()));
-       return partyRepostory.save(party);
+        return partyRepostory.save(party);
     }
 
     public Party getPartyById(String idParty) {
@@ -47,26 +47,21 @@ public class PartyService {
     }
 
     public void deleteParty(String idParty) {
-        if(partyRepostory.existsById(idParty)){
+        if(partyRepostory.existsById(idParty))
             partyRepostory.deleteById(idParty);
-        }else{
+        else
             throw new PartyNotFoundException();
-        }
     }
 
 
     public void addUserToParty(Integer idUser, String idParty) {
         //If the party or the user do not Exist throw Exception before making changes
-        Party party =partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
-        User user=userService.getUserById(idUser);
+        Party party = partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
+        User user = userService.getUserById(idUser);
 
-        //Save the party in the USER
-        userService.addPartyToUser(party,idUser);
-        //Add the User To the Party
-        party.getUserList().add(user);
-        //Save the List
-        partyRepostory.save(party);
-
+        userService.addPartyToUser(party,idUser); //Save the party in the USER
+        party.getUserList().add(user); //Add the User To the Party
+        partyRepostory.save(party);//Save the List
     }
 
     public List<PlayerDto> getPartyPlayersList(String idParty) {
@@ -82,63 +77,28 @@ public class PartyService {
 
     public void adduserStoryToParty(String idParty, Integer userStory) {
         Party parti=partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
-        //Get US
         UserStory usCreated= userStoryService.getUserStory(userStory);
-        boolean usInParty=this.existUsInParty(parti.getUserStories(),usCreated);
-        if(usInParty){
-            throw new UsAlreadyInThePartyException();
-        }
+        boolean usInParty = this.existUsInParty(parti.getUserStories(),usCreated);
 
-        //add to the party
-        parti.getUserStories().add(usCreated);
-        //Save changes in Userstory
-        userStoryService.addUserstoryToParty(parti,userStory);
+        if(usInParty)
+            throw new UsAlreadyInThePartyException();
+
+        parti.getUserStories().add(usCreated); //add to the party
+        userStoryService.addUserstoryToParty(parti,userStory); //Save changes in Userstory
         partyRepostory.save(parti);
     }
+
     public boolean existUsInParty(List<UserStory> userStoryList,UserStory userStory){
         boolean rta=false;
         for (UserStory us:userStoryList) {
-            if(us.getId() == userStory.getId()){
+            if(us.getId() == userStory.getId())
                 rta=true;
-            }
         }
         return  rta;
     }
 
     public List<UserStory> getPartyUsList(String idParty) {
-        Party part=partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
-        return part.getUserStories();
-    }
-
-    public void deleteUs(Integer idUS) {
-        userStoryService.deleteUs(idUS);
-    }
-
-
-    public boolean usNameRepeated(Party parti,String newName,Integer idUser ){
-        boolean rta =false;
-        List<UserStory> userStories=parti.getUserStories();
-        for (int i=0;i<userStories.size();i++){
-            //me deja repetir el nombre si es en la misma us
-            if(userStories.get(i).getId() == idUser){
-                rta=false;
-            }else{
-                if (userStories.get(i).getName().equalsIgnoreCase(newName)) {
-                    rta = true;
-                }
-            }
-            }
-        return rta;
-    }
-    public boolean isUsInTheParty(Party parti,Integer idUs){
-        List<UserStory> usList=parti.getUserStories();
-        boolean rta=false;
-        for(int i=0;i < usList.size();i++){
-            if(idUs == usList.get(i).getId()){
-                rta =true;
-            }
-        }
-        return rta;
-
+        Party party = partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
+        return party.getUserStories();
     }
 }

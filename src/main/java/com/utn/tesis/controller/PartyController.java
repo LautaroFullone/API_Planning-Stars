@@ -23,16 +23,15 @@ public class PartyController {
         this.partyService = partyService;
     }
 //-------------------------------------------- P O S T -----------------------------------------------------------------
-
     @PostMapping()
     public ResponseEntity addParty(@RequestBody Party partyToAdd)  {
         Party party = partyService.addParty(partyToAdd);
         return ResponseEntity.status(HttpStatus.OK).body(party);
     }
 
-    @GetMapping("/{idParty}")
-    public ResponseEntity<Party> getPartyById(@PathVariable String idParty ){
-        Party searchParty = partyService.getPartyById(idParty);
+    @GetMapping("/{partyId}")
+    public ResponseEntity<Party> getPartyById(@PathVariable String partyId ){
+        Party searchParty = partyService.getPartyById(partyId);
         return ResponseEntity.status(HttpStatus.OK).body(searchParty);
     }
 // -------------------------------------------- G E T ------------------------------------------------------------------
@@ -47,9 +46,10 @@ public class PartyController {
                     .header("X-Total-Elements", Integer.toString(partyList.size()))
                     .body(partyList);
     }
-    @GetMapping("/{idParty}/players")
-    public ResponseEntity<List<PlayerDto>> getPartyPlayersList(@PathVariable String idParty) {
-        List<PlayerDto> playersList = partyService.getPartyPlayersList(idParty);
+
+    @GetMapping("/{partyId}/players")
+    public ResponseEntity<List<PlayerDto>> getPartyPlayersList(@PathVariable String partyId) {
+        List<PlayerDto> playersList = partyService.getPartyPlayersList(partyId);
         if(playersList.isEmpty())
             return ResponseEntity.noContent().build();
         else
@@ -57,9 +57,9 @@ public class PartyController {
                     .header("X-Total-Elements", Integer.toString(playersList.size()))
                     .body(playersList);
     }
-    @GetMapping("/{idParty}/userstories")
-    public ResponseEntity<List<UserStory>> getPartyUsList(@PathVariable String idParty) {
-        List<UserStory> usList = partyService.getPartyUsList(idParty);
+    @GetMapping("/{partyId}/userstories")
+    public ResponseEntity<List<UserStory>> getPartyUsList(@PathVariable String partyId) {
+        List<UserStory> usList = partyService.getPartyUsList(partyId);
         if(usList.isEmpty())
             return ResponseEntity.noContent().build();
         else
@@ -68,22 +68,21 @@ public class PartyController {
                     .body(usList);
     }
 // -------------------------------------------- P U T ------------------------------------------------------------------
-    @PutMapping("/{idParty}/user/{idUser}")
-    public ResponseEntity addUserToParty(@PathVariable Integer idUser,@PathVariable String idParty){
-        partyService.addUserToParty(idUser,idParty);
+    @PutMapping("/{partyId}/user/{idUser}")
+    public ResponseEntity addUserToParty(@PathVariable Integer idUser,@PathVariable String partyId){
+        partyService.addUserToParty(idUser, partyId);
         return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/{idParty}/userstory/{userStory}")
-    public ResponseEntity addUserStoryToParty(@PathVariable String idParty,@PathVariable Integer userStory){
-        partyService.adduserStoryToParty(idParty,userStory);
+    @PutMapping("/{partyId}/userstory/{userStory}")
+    public ResponseEntity addUserStoryToParty(@PathVariable String partyId,@PathVariable Integer userStory){
+        partyService.adduserStoryToParty(partyId, userStory);
         return ResponseEntity.ok().build();
     }
-
 // -------------------------------------------- D E L E T --------------------------------------------------------------
-    @DeleteMapping("/{idParty}")
-    public ResponseEntity deleteParty(@PathVariable String idParty){
-        partyService.deleteParty(idParty);
+    @DeleteMapping("/{partyId}")
+    public ResponseEntity deleteParty(@PathVariable String partyId){
+        partyService.deleteParty(partyId);
         return ResponseEntity.ok().build();
     }
 
