@@ -25,7 +25,6 @@ public class UserStoryService {
         userStoryRepository.save(us);
     }
 
-
     public List<UserStory> getUs() {
         return userStoryRepository.findAll();
     }
@@ -47,9 +46,9 @@ public class UserStoryService {
         UserStory oldUs = userStoryRepository.findById(idUs).orElseThrow(()->new UsNotFoundException());
         Party usParty = oldUs.getParty();
 
-        if(idUs != userStory.getId()){
+        if(idUs != userStory.getId())
             throw new UsDoNotMatchException();
-        }
+
         oldUs = userStory;
         oldUs.setParty(usParty);
         return userStoryRepository.save(oldUs);
