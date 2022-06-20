@@ -60,6 +60,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
+
     //PARTY Not Found
     @ExceptionHandler({PartyNotFoundException.class})
     public ResponseEntity<Object> handleUserNorFound(PartyNotFoundException ex , WebRequest request){
@@ -68,6 +69,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
+
     //US Not Found
     @ExceptionHandler({UsNotFoundException.class})
     public ResponseEntity<Object> handleUserNorFound(UsNotFoundException ex , WebRequest request){
@@ -76,6 +78,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
+
     //Not Match US
     @ExceptionHandler({UsDoNotMatchException.class})
     public ResponseEntity<Object> handleUserNorFound(UsDoNotMatchException ex , WebRequest request){
@@ -84,6 +87,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
+
     //Us Not Found in the PARTY
     @ExceptionHandler({UsNotInThePartyException.class})
     public ResponseEntity<Object> handleUserNorFound(UsNotInThePartyException ex , WebRequest request){
@@ -92,6 +96,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
+
     //id not match
     @ExceptionHandler({idNotMatchException.class})
     public ResponseEntity<Object> handleUserNorFound(idNotMatchException ex , WebRequest request){
@@ -100,6 +105,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
+
     //US Name Repeted
     @ExceptionHandler({usNameRepetedException.class})
     public ResponseEntity<Object> handleUserNorFound(usNameRepetedException ex , WebRequest request){
@@ -108,6 +114,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
+
     //US Repeated in the party
     @ExceptionHandler({UsAlreadyInThePartyException.class})
     public ResponseEntity<Object> handleUserNorFound(UsAlreadyInThePartyException ex , WebRequest request){

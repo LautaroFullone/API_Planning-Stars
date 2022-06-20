@@ -31,11 +31,11 @@ public class Party {
     @NotNull(message = "This Field is mandatory")
     private String createdBy;
     @NotNull(message = "This Field is mandatory")
+    private String partyOwnerId;
+    @NotNull(message = "This Field is mandatory")
     private String createdDate;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "partiesList")
-    private List<User> userList;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "party")
