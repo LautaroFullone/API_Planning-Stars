@@ -63,18 +63,6 @@ public class UserController {
                     .body(userList);
     }
 
-    @GetMapping("/{userId}/parties")
-    public ResponseEntity<List<Party>>getUserParties (@PathVariable Integer userId) {
-        List<Party> partyList = userService.getPartyList(userId);
-
-        if(partyList.isEmpty())
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.status(HttpStatus.OK)
-                    .header("X-Total-Elements", Integer.toString(partyList.size()))
-                    .body(partyList);
-    }
-
     @GetMapping("/{userId}")
     public ResponseEntity<User> getUserById(@PathVariable Integer userId){
         User searchUser = userService.getUserById(userId);

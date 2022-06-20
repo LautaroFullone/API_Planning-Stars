@@ -72,21 +72,11 @@ public class UserService {
         return usrRta;
     }
 
-    public void addPartyToUser(Party party,Integer idUser){
-        User usr= this.getUserById(idUser);
-        usr.getPartiesList().add(party);
-        userRepository.save(usr);
-    }
-
     public User getUserById(Integer userId) {
         return this.userRepository.findById( userId)
                 .orElseThrow(()-> new UserNotFoundException());
     }
 
-    public List<Party> getPartyList(Integer idUser) {
-        User user = this.getUserById(idUser);
-        return user.getPartiesList();
-    }
 
     public User modifyUser(Integer idUser, User newUser) {
         User user = this.getUserById(idUser);

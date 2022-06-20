@@ -54,26 +54,6 @@ public class PartyService {
     }
 
 
-    public void addUserToParty(Integer idUser, String idParty) {
-        //If the party or the user do not Exist throw Exception before making changes
-        Party party = partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
-        User user = userService.getUserById(idUser);
-
-        userService.addPartyToUser(party,idUser); //Save the party in the USER
-        party.getUserList().add(user); //Add the User To the Party
-        partyRepostory.save(party);//Save the List
-    }
-
-    public List<PlayerDto> getPartyPlayersList(String idParty) {
-        Party part = partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
-        List<User> userList = part.getUserList();
-        List<PlayerDto> playersList = new ArrayList<>();
-
-        if(!userList.isEmpty())
-            playersList = userList.stream().map(u -> PlayerDto.from(u)).toList();
-
-        return playersList;
-    }
 
     public void adduserStoryToParty(String idParty, Integer userStory) {
         Party parti=partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());

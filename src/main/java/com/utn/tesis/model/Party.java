@@ -35,9 +35,7 @@ public class Party {
     @NotNull(message = "This Field is mandatory")
     private String createdDate;
 
-    @JsonIgnore
-    @ManyToMany(mappedBy = "partiesList")
-    private List<User> userList;
+
 
     @JsonIgnore
     @OneToMany(mappedBy = "party")

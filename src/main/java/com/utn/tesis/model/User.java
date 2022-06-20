@@ -29,13 +29,6 @@ public class User {
     @NotNull(message = "This Field is mandatory")
     private String password;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(
-            name = "user_FK",
-            joinColumns = @JoinColumn(name = "users_id"),
-            inverseJoinColumns = @JoinColumn(name = "parties_id"))
-   private List<Party> partiesList;
 
 
 

@@ -47,16 +47,7 @@ public class PartyController {
                     .body(partyList);
     }
 
-    @GetMapping("/{partyId}/players")
-    public ResponseEntity<List<PlayerDto>> getPartyPlayersList(@PathVariable String partyId) {
-        List<PlayerDto> playersList = partyService.getPartyPlayersList(partyId);
-        if(playersList.isEmpty())
-            return ResponseEntity.noContent().build();
-        else
-            return ResponseEntity.status(HttpStatus.OK)
-                    .header("X-Total-Elements", Integer.toString(playersList.size()))
-                    .body(playersList);
-    }
+
     @GetMapping("/{partyId}/userstories")
     public ResponseEntity<List<UserStory>> getPartyUsList(@PathVariable String partyId) {
         List<UserStory> usList = partyService.getPartyUsList(partyId);
@@ -68,11 +59,7 @@ public class PartyController {
                     .body(usList);
     }
 // -------------------------------------------- P U T ------------------------------------------------------------------
-    @PutMapping("/{partyId}/user/{idUser}")
-    public ResponseEntity addUserToParty(@PathVariable Integer idUser,@PathVariable String partyId){
-        partyService.addUserToParty(idUser, partyId);
-        return ResponseEntity.ok().build();
-    }
+
 
     @PutMapping("/{partyId}/userstory/{userStory}")
     public ResponseEntity addUserStoryToParty(@PathVariable String partyId,@PathVariable Integer userStory){
