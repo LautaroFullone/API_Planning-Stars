@@ -1,10 +1,14 @@
 package com.utn.tesis.service;
 
+import com.utn.tesis.exception.types.PartyNotFoundException;
+import com.utn.tesis.exception.types.UsAlreadyInThePartyException;
 import com.utn.tesis.exception.types.UsDoNotMatchException;
 import com.utn.tesis.exception.types.UsNotFoundException;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.UserStory;
+import com.utn.tesis.model.Votation;
 import com.utn.tesis.repository.UserStoryRepository;
+import com.utn.tesis.repository.VotationRespository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,19 +17,21 @@ import java.util.List;
 @Service
 public class UserStoryService {
     private UserStoryRepository userStoryRepository;
+    private VotationRespository votationRespository;
 
     @Autowired
-    public UserStoryService(UserStoryRepository userStoryepository) {
+    public UserStoryService(UserStoryRepository userStoryepository, VotationRespository votationRespository) {
         this.userStoryRepository = userStoryepository;
+        this.votationRespository = votationRespository;
     }
 
     public void addUserstoryToParty(Party parti, Integer id) {
-        UserStory us = userStoryRepository.findById(id).orElseThrow(()-> new UsNotFoundException());
+        UserStory us = getUserStory(id);
         us.setParty(parti);
         userStoryRepository.save(us);
     }
 
-    public List<UserStory> getUs() {
+    public List<UserStory> getUserStories() {
         return userStoryRepository.findAll();
     }
 
@@ -34,16 +40,17 @@ public class UserStoryService {
     }
 
     public void deleteUs(Integer idUS) {
-        UserStory us = userStoryRepository.findById(idUS).orElseThrow(()-> new UsNotFoundException());
+        UserStory us = getUserStory(idUS);
         userStoryRepository.deleteById(us.getId());
     }
 
     public UserStory getUserStory(Integer usId){
-        return userStoryRepository.findById(usId).orElseThrow(()-> new UsNotFoundException());
+        return userStoryRepository.findById(usId)
+                .orElseThrow(()-> new UsNotFoundException());
     }
 
     public UserStory modifyUs(Integer idUs ,UserStory userStory) {
-        UserStory oldUs = userStoryRepository.findById(idUs).orElseThrow(()->new UsNotFoundException());
+        UserStory oldUs = getUserStory(idUs);
         Party usParty = oldUs.getParty();
 
         if(idUs != userStory.getId())
@@ -53,4 +60,24 @@ public class UserStoryService {
         oldUs.setParty(usParty);
         return userStoryRepository.save(oldUs);
     }
+
+    public void addVotationIntoUserStory(Votation votation, Integer userStoryId){
+        UserStory us = getUserStory(userStoryId);
+
+        us.getVotationsList().add(votation);
+        votation.setUserStory(us);
+        System.out.println("US into"+ us);
+        System.out.println("Votation to insert"+ votation);
+        votationRespository.save(votation);
+        userStoryRepository.save(us);
+    }
+
+    public List<Votation> getUserStoryVotations(Integer userStoryId) {
+        UserStory us = getUserStory(userStoryId);
+
+        System.out.println("Votations"+ us.getVotationsList());
+        return us.getVotationsList();
+    }
+
+
 }

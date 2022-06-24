@@ -1,12 +1,7 @@
 package com.utn.tesis.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 import javax.persistence.*;
@@ -17,6 +12,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
+@ToString
 @Entity
 @Table(name ="parties")
 public class Party {
@@ -35,12 +31,9 @@ public class Party {
     @NotNull(message = "This Field is mandatory")
     private String createdDate;
 
-
-
-    @JsonIgnore
+    @ToString.Exclude  @JsonIgnore
     @OneToMany(mappedBy = "party")
     private List<UserStory> userStories;
-
 
 
 }
