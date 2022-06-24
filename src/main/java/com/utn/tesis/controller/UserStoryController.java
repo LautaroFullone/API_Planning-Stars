@@ -3,6 +3,7 @@ package com.utn.tesis.controller;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
+import com.utn.tesis.model.Votation;
 import com.utn.tesis.service.UserStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,8 +30,8 @@ public class UserStoryController {
     }
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
-    public ResponseEntity<List<UserStory>> getUsers() {
-        List<UserStory>usList = userStoryService.getUs();
+    public ResponseEntity<List<UserStory>> getUserStories() {
+        List<UserStory>usList = userStoryService.getUserStories();
         if(usList.isEmpty())
             return ResponseEntity.noContent().build();
         else
@@ -38,12 +39,29 @@ public class UserStoryController {
                 .header("X-Total-Elements", Integer.toString(usList.size()))
                 .body(usList);
     }
+
+    @GetMapping("/{userStoryId}/votations")
+    public ResponseEntity<List<Votation>> getUsVotationList(@PathVariable Integer userStoryId) {
+        List<Votation> votationsList = userStoryService.getUserStoryVotations(userStoryId);
+        if(votationsList.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.status(HttpStatus.OK)
+                    .header("X-Total-Elements", Integer.toString(votationsList.size()))
+                    .body(votationsList);
+    }
     // -------------------------------------------- P U T ------------------------------------------------------------------
      @PutMapping("/{userStoryId}")
-     public ResponseEntity<UserStory> modifyUserStory(@PathVariable Integer userStoryId,@RequestBody UserStory newUserStory){
-            UserStory userStory= userStoryService.modifyUs(userStoryId,newUserStory);
-            return ResponseEntity.ok(userStory);
+     public ResponseEntity<UserStory> modifyUserStory(@PathVariable Integer userStoryId, @RequestBody UserStory newUserStory){
+        UserStory userStory= userStoryService.modifyUs(userStoryId,newUserStory);
+        return ResponseEntity.ok(userStory);
      }
+
+    @PutMapping("/{userStoryId}/votation")
+    public ResponseEntity addVotationIntoUserStory(@PathVariable Integer userStoryId, @RequestBody Votation votation){
+        userStoryService.addVotationIntoUserStory(votation, userStoryId);
+        return ResponseEntity.ok().build();
+    }
     // -------------------------------------------- D E L E T --------------------------------------------------------------
     @DeleteMapping("/{userStoryId}")
     public  ResponseEntity deleteParty(@PathVariable Integer userStoryId){

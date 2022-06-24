@@ -2,15 +2,12 @@ package com.utn.tesis.service;
 
 import com.utn.tesis.exception.types.*;
 import com.utn.tesis.model.Party;
-import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
-import com.utn.tesis.model.dto.PlayerDto;
 import com.utn.tesis.repository.PartyRepostory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -19,13 +16,11 @@ import java.util.UUID;
 public class PartyService {
 
     private PartyRepostory partyRepostory;
-    private UserService userService;
     private UserStoryService  userStoryService;
 
     @Autowired
-    public PartyService(PartyRepostory partyRepostory, UserService userService, UserStoryService userStoryService) {
+    public PartyService(PartyRepostory partyRepostory, UserStoryService userStoryService) {
         this.partyRepostory = partyRepostory;
-        this.userService = userService;
         this.userStoryService = userStoryService;
     }
 
@@ -52,8 +47,6 @@ public class PartyService {
         else
             throw new PartyNotFoundException();
     }
-
-
 
     public void adduserStoryToParty(String idParty, Integer userStory) {
         Party parti=partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
