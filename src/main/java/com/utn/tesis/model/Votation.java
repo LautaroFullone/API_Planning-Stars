@@ -1,5 +1,6 @@
 package com.utn.tesis.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -11,17 +12,19 @@ import javax.validation.constraints.NotNull;
 @Builder
 @ToString
 @Entity
-@Table(name ="users")
-public class User {
+@Table(name ="votations")
+public class Votation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @NotNull(message = "This Field is mandatory")
-    private String name;
-    @NotNull(message = "This Field is mandatory")
-    private String email;
-    @NotNull(message = "This Field is mandatory")
-    private String password;
 
+    @NotNull(message = "This Field is mandatory")
+    private String userID;
+    @NotNull(message = "This Field is mandatory")
+    private String value;
+
+    @ToString.Exclude  @JsonIgnore
+    @ManyToOne  @JoinColumn(name = "id_userStory")
+    private UserStory userStory;
 }

@@ -1,5 +1,6 @@
-package com.utn.tesis.model;
+package com.utn.tesis.model.dto;
 
+import com.utn.tesis.model.User;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

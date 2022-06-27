@@ -1,9 +1,7 @@
 package com.utn.tesis.controller;
 
 import com.utn.tesis.model.Party;
-import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
-import com.utn.tesis.model.dto.PlayerDto;
 import com.utn.tesis.service.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -59,8 +57,6 @@ public class PartyController {
                     .body(usList);
     }
 // -------------------------------------------- P U T ------------------------------------------------------------------
-
-
     @PutMapping("/{partyId}/userstory/{userStory}")
     public ResponseEntity addUserStoryToParty(@PathVariable String partyId,@PathVariable Integer userStory){
         partyService.adduserStoryToParty(partyId, userStory);
