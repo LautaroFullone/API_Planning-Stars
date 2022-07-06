@@ -3,11 +3,14 @@ package com.utn.tesis.service;
 import com.utn.tesis.exception.types.*;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.UserStory;
+import com.utn.tesis.model.Votation;
 import com.utn.tesis.repository.PartyRepostory;
+import net.kaczmarzyk.spring.data.jpa.domain.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.UUID;
@@ -17,11 +20,13 @@ public class PartyService {
 
     private PartyRepostory partyRepostory;
     private UserStoryService  userStoryService;
+    private VotationService votationService;
 
     @Autowired
-    public PartyService(PartyRepostory partyRepostory, UserStoryService userStoryService) {
+    public PartyService(PartyRepostory partyRepostory, UserStoryService userStoryService,VotationService votationService) {
         this.partyRepostory = partyRepostory;
         this.userStoryService = userStoryService;
+        this.votationService = votationService;
     }
 
     public Party addParty(Party party) {
@@ -73,5 +78,15 @@ public class PartyService {
     public List<UserStory> getPartyUsList(String idParty) {
         Party party = partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
         return party.getUserStories();
+    }
+
+    public List<Votation> getPartyVotation(String partyId) {
+        List<UserStory> userStoryList =  this.userStoryService.getUserStoriesFromPartyId(partyId);
+        List<Integer> idUs =new ArrayList<Integer>();
+        for (UserStory us:userStoryList) {
+            idUs.add(us.getId());
+        }
+         List<Votation> votationList = this.votationService.getVotationFromUserstories(idUs);
+        return  votationList;
     }
 }

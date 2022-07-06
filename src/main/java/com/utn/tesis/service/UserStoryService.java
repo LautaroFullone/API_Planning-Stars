@@ -35,6 +35,7 @@ public class UserStoryService {
         return userStoryRepository.findAll();
     }
 
+
     public UserStory creatUs(UserStory userStory) {
        return userStoryRepository.save(userStory);
     }
@@ -66,8 +67,6 @@ public class UserStoryService {
 
         us.getVotationsList().add(votation);
         votation.setUserStory(us);
-        System.out.println("US into"+ us);
-        System.out.println("Votation to insert"+ votation);
         votationRespository.save(votation);
         userStoryRepository.save(us);
     }
@@ -75,9 +74,10 @@ public class UserStoryService {
     public List<Votation> getUserStoryVotations(Integer userStoryId) {
         UserStory us = getUserStory(userStoryId);
 
-        System.out.println("Votations"+ us.getVotationsList());
         return us.getVotationsList();
     }
-
+    public List<UserStory>getUserStoriesFromPartyId(String partyId){
+        return  this.userStoryRepository.findByPartyId(partyId);
+    }
 
 }
