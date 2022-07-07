@@ -6,6 +6,7 @@ import com.utn.tesis.exception.types.UserNotFoundException;
 import com.utn.tesis.exception.types.idNotMatchException;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
+import com.utn.tesis.model.UserStory;
 import com.utn.tesis.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -76,6 +77,7 @@ public class UserService {
         return this.userRepository.findById( userId)
                 .orElseThrow(()-> new UserNotFoundException());
     }
+
 
 
     public User modifyUser(Integer idUser, User newUser) {

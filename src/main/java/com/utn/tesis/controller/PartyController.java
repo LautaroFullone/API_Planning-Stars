@@ -25,16 +25,17 @@ public class PartyController {
     @PostMapping()
     public ResponseEntity addParty(@RequestBody Party partyToAdd)  {
         Party party = partyService.addParty(partyToAdd);
-        return ResponseEntity.status(HttpStatus.OK).body(party);
+        return ResponseEntity.status(HttpStatus.CREATED).body(party);
     }
 
+
+
+// -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping("/{partyId}")
     public ResponseEntity<Party> getPartyById(@PathVariable String partyId ){
         Party searchParty = partyService.getPartyById(partyId);
         return ResponseEntity.status(HttpStatus.OK).body(searchParty);
     }
-
-// -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<List<Party>> getParties() {
         List<Party> partyList = partyService.getParties();
