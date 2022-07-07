@@ -14,4 +14,6 @@ public interface UserStoryRepository extends JpaRepository<UserStory,Integer> {
 
 
     List<UserStory> findByPartyId(String partyId);
+
+
 }

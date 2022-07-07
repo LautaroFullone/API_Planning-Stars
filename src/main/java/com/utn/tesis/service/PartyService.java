@@ -76,8 +76,7 @@ public class PartyService {
     }
 
     public List<UserStory> getPartyUsList(String idParty) {
-        Party party = partyRepostory.findById(idParty).orElseThrow(()->new PartyNotFoundException());
-        return party.getUserStories();
+        return this.userStoryService.getUserStoriesFromPartyId(idParty);
     }
 
     public List<Votation> getPartyVotation(String partyId) {

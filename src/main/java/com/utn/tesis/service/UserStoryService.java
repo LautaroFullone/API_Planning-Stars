@@ -72,9 +72,7 @@ public class UserStoryService {
     }
 
     public List<Votation> getUserStoryVotations(Integer userStoryId) {
-        UserStory us = getUserStory(userStoryId);
-
-        return us.getVotationsList();
+        return this.votationRespository.findByUserStoryId(userStoryId);
     }
     public List<UserStory>getUserStoriesFromPartyId(String partyId){
         return  this.userStoryRepository.findByPartyId(partyId);

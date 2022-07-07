@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface VotationRespository extends JpaRepository<Votation,Integer> {
     List<Votation> findByUserStoryIdIn(List<Integer> idUs);
+
+    List<Votation> findByUserStoryId(Integer userStoryId);
 }
