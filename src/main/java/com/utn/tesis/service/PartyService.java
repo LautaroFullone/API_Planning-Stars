@@ -4,8 +4,7 @@ import com.utn.tesis.exception.types.*;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.UserStory;
 import com.utn.tesis.model.Votation;
-import com.utn.tesis.repository.PartyRepostory;
-import net.kaczmarzyk.spring.data.jpa.domain.In;
+import com.utn.tesis.repository.PartyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,12 +17,12 @@ import java.util.UUID;
 @Service
 public class PartyService {
 
-    private PartyRepostory partyRepostory;
+    private PartyRepository partyRepostory;
     private UserStoryService  userStoryService;
     private VotationService votationService;
 
     @Autowired
-    public PartyService(PartyRepostory partyRepostory, UserStoryService userStoryService,VotationService votationService) {
+    public PartyService(PartyRepository partyRepostory, UserStoryService userStoryService, VotationService votationService) {
         this.partyRepostory = partyRepostory;
         this.userStoryService = userStoryService;
         this.votationService = votationService;
