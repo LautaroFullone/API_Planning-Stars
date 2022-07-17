@@ -3,7 +3,7 @@ package com.utn.tesis.service;
 import com.utn.tesis.exception.types.*;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.UserStory;
-import com.utn.tesis.repository.PartyRepostory;
+import com.utn.tesis.repository.PartyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,11 +15,11 @@ import java.util.UUID;
 @Service
 public class PartyService {
 
-    private PartyRepostory partyRepostory;
+    private PartyRepository partyRepostory;
     private UserStoryService  userStoryService;
 
     @Autowired
-    public PartyService(PartyRepostory partyRepostory, UserStoryService userStoryService) {
+    public PartyService(PartyRepository partyRepostory, UserStoryService userStoryService) {
         this.partyRepostory = partyRepostory;
         this.userStoryService = userStoryService;
     }

@@ -3,7 +3,6 @@ package com.utn.tesis.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.List;
@@ -32,8 +31,7 @@ public class Party {
     private String createdDate;
 
     @ToString.Exclude  @JsonIgnore
-    @OneToMany(mappedBy = "party")
+    @OneToMany(mappedBy = "party", cascade = CascadeType.REMOVE)
     private List<UserStory> userStories;
-
 
 }
