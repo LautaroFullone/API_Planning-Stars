@@ -2,6 +2,7 @@ package com.utn.tesis.controller;
 
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.UserStory;
+import com.utn.tesis.model.Votation;
 import com.utn.tesis.service.PartyService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,15 +25,17 @@ public class PartyController {
     @PostMapping()
     public ResponseEntity addParty(@RequestBody Party partyToAdd)  {
         Party party = partyService.addParty(partyToAdd);
-        return ResponseEntity.status(HttpStatus.OK).body(party);
+        return ResponseEntity.status(HttpStatus.CREATED).body(party);
     }
 
+
+
+// -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping("/{partyId}")
     public ResponseEntity<Party> getPartyById(@PathVariable String partyId ){
         Party searchParty = partyService.getPartyById(partyId);
         return ResponseEntity.status(HttpStatus.OK).body(searchParty);
     }
-// -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<List<Party>> getParties() {
         List<Party> partyList = partyService.getParties();
@@ -56,6 +59,17 @@ public class PartyController {
                     .header("X-Total-Elements", Integer.toString(usList.size()))
                     .body(usList);
     }
+    @GetMapping("/{partyId}/votations")
+    public ResponseEntity<List<Votation>> getPartyVotationList(@PathVariable String partyId) {
+        List<Votation> votationList = partyService.getPartyVotation(partyId);
+        if(votationList.isEmpty())
+            return ResponseEntity.noContent().build();
+        else
+            return ResponseEntity.status(HttpStatus.OK)
+                    .header("X-Total-Elements", Integer.toString(votationList.size()))
+                    .body(votationList);
+    }
+
 // -------------------------------------------- P U T ------------------------------------------------------------------
     @PutMapping("/{partyId}/userstory/{userStory}")
     public ResponseEntity addUserStoryToParty(@PathVariable String partyId,@PathVariable Integer userStory){

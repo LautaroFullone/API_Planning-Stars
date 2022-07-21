@@ -32,7 +32,7 @@ public class Party {
     private String createdDate;
 
     @ToString.Exclude  @JsonIgnore
-    @OneToMany(mappedBy = "party")
+    @OneToMany(mappedBy = "party", cascade = CascadeType.REMOVE)
     private List<UserStory> userStories;
 
 
