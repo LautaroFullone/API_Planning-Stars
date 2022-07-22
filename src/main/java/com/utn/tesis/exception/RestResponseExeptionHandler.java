@@ -38,7 +38,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({EmailExistException.class})
     public ResponseEntity<Object> handleEmailExist(EmailExistException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("This Email is already in use ,please try with another.");
+        errors.add("The email already exists, use another.");
         ApiError apiError= new ApiError(HttpStatus.CONFLICT,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
