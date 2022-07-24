@@ -1,13 +1,33 @@
 package com.utn.tesis;
 
 import com.utn.tesis.model.Party;
+import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
 import com.utn.tesis.model.Votation;
+import com.utn.tesis.model.dto.LoginResponseDto;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UTILS_TESTCONSTANTS {
+    public static List<User> getUserList(){
+        List<User> users =new ArrayList<User>();
+        User user =new User(1,"User 1","user@gmail.com","password");
+        User user2 =new User(2,"User 2","user@gmail.com","password");
+        User user3=new User(3,"User 3","user@gmail.com","password");
+        users.add(user);
+        users.add(user2);
+        users.add(user3);
+
+        return  users;
+    }
+    public  static User getUser(){
+        User user =new User(1,"User 1","user@gmail.com","password");
+        return user;
+    }
+    public static LoginResponseDto getloginDTO(){
+        return  LoginResponseDto.builder().userDetails(getUser()).token("code").build();
+    }
     public static Party getParty(){
         Party party = new Party();
         party.setId("AABB11");
