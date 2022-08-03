@@ -28,6 +28,7 @@ public class UTILS_TESTCONSTANTS {
     public static LoginResponseDto getloginDTO(){
         return  LoginResponseDto.builder().userDetails(getUser()).token("code").build();
     }
+
     public static Party getParty(){
         Party party = new Party();
         party.setId("AABB11");
