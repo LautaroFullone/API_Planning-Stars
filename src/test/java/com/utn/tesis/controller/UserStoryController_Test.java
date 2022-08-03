@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-public class UserStoryController {
+public class UserStoryController_Test {
     UserService userService;
     ObjectMapper objectMapper;
     UserController userController;
