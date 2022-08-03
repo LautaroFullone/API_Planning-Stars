@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -56,4 +57,12 @@ public class UserService_Test {
         User response = userService.login(UTILS_TESTCONSTANTS.getUser());
         assertEquals(1,response.getId());
     }
+    @Test
+    public void getUserById_TestOK(){
+        when(userRepository.findById(any())).thenReturn(Optional.of(UTILS_TESTCONSTANTS.getUser()));
+        User respose= userService.getUserById(1);
+        assertEquals(respose.getId(),1);
+
+    }
+
 }
