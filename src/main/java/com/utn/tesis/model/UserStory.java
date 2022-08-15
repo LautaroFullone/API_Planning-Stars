@@ -47,10 +47,8 @@ public class UserStory {
     private Integer storyPoints;
     private boolean isActive = true;
 
-    @ToString.Exclude
-    @JsonIgnore
-    @ManyToOne
-    @JoinColumn(name = "id_party")
+    @ToString.Exclude  @JsonIgnore
+    @ManyToOne @JoinColumn(name = "id_party")
     private Party party;
 
     @ToString.Exclude  @JsonIgnore

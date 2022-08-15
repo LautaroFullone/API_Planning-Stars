@@ -21,6 +21,7 @@ public class Votation {
 
     @NotNull(message = "This Field is mandatory")
     private String userID;
+
     @NotNull(message = "This Field is mandatory")
     private String value;
 
