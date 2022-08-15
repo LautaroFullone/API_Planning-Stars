@@ -25,8 +25,8 @@ public class UserStoryController {
 //-------------------------------------------- P O S T -----------------------------------------------------------------
     @PostMapping
     public ResponseEntity<UserStory>addUserStory(@RequestBody UserStory us){
-      UserStory userStory= userStoryService.creatUs(us);
-      return ResponseEntity.ok(userStory);
+        UserStory userStory = userStoryService.creatUs(us);
+        return ResponseEntity.ok(userStory);
     }
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
@@ -50,7 +50,7 @@ public class UserStoryController {
                     .header("X-Total-Elements", Integer.toString(votationsList.size()))
                     .body(votationsList);
     }
-    // -------------------------------------------- P U T ------------------------------------------------------------------
+// -------------------------------------------- P U T ------------------------------------------------------------------
      @PutMapping("/{userStoryId}")
      public ResponseEntity<UserStory> modifyUserStory(@PathVariable Integer userStoryId, @RequestBody UserStory newUserStory){
         UserStory userStory= userStoryService.modifyUs(userStoryId,newUserStory);
@@ -62,7 +62,7 @@ public class UserStoryController {
         userStoryService.addVotationIntoUserStory(votation, userStoryId);
         return ResponseEntity.ok().build();
     }
-    // -------------------------------------------- D E L E T --------------------------------------------------------------
+// -------------------------------------------- D E L E T --------------------------------------------------------------
     @DeleteMapping("/{userStoryId}")
     public  ResponseEntity deleteParty(@PathVariable Integer userStoryId){
         userStoryService.deleteUs(userStoryId);
