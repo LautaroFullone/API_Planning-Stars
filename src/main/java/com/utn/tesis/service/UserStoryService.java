@@ -1,9 +1,6 @@
 package com.utn.tesis.service;
 
-import com.utn.tesis.exception.types.PartyNotFoundException;
-import com.utn.tesis.exception.types.UsAlreadyInThePartyException;
-import com.utn.tesis.exception.types.UsDoNotMatchException;
-import com.utn.tesis.exception.types.UsNotFoundException;
+import com.utn.tesis.exception.types.*;
 import com.utn.tesis.model.Party;
 import com.utn.tesis.model.UserStory;
 import com.utn.tesis.model.Votation;
@@ -78,4 +75,10 @@ public class UserStoryService {
         return  this.userStoryRepository.findByPartyId(partyId);
     }
 
+    public UserStory addStoryPoint(Integer usID,Integer storyPoint) {
+        UserStory us = userStoryRepository.findById(usID).orElseThrow(()-> new UserNotFoundException());
+        us.setStoryPoints(storyPoint);
+         return userStoryRepository.save(us);
+
+    }
 }
