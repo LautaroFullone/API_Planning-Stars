@@ -28,6 +28,12 @@ public class UserStoryController {
       UserStory userStory= userStoryService.creatUs(us);
       return ResponseEntity.ok(userStory);
     }
+    @PostMapping
+    @RequestMapping("/{usId}/planning-result/{storyPoint}")
+    public ResponseEntity<UserStory>addStoryPoint(@PathVariable Integer usId,@PathVariable Integer storyPoint){
+        UserStory userStory= userStoryService.addStoryPoint(usId,storyPoint);
+        return ResponseEntity.ok(userStory);
+    }
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<List<UserStory>> getUserStories() {
