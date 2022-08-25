@@ -16,18 +16,25 @@ import java.util.List;
 @Entity
 @Table(name ="parties")
 public class Party {
+
     @Id
     private String id;
+
     @NotNull(message = "This Field is mandatory")
     private String name;
+
     @NotNull(message = "This Field is mandatory")
     private Integer maxPlayer;
+
     @NotNull(message = "This Field is mandatory")
     private Boolean isActive;
+
     @NotNull(message = "This Field is mandatory")
     private String createdBy;
+
     @NotNull(message = "This Field is mandatory")
     private String partyOwnerId;
+
     @NotNull(message = "This Field is mandatory")
     private String createdDate;
 

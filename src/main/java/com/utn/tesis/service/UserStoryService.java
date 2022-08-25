@@ -34,7 +34,7 @@ public class UserStoryService {
 
 
     public UserStory creatUs(UserStory userStory) {
-       return userStoryRepository.save(userStory);
+        return userStoryRepository.save(userStory);
     }
 
     public void deleteUs(Integer idUS) {
