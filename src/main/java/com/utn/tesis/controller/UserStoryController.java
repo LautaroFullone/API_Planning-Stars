@@ -4,6 +4,7 @@ import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
 import com.utn.tesis.model.Votation;
+import com.utn.tesis.model.dto.PlanningDetailDTO;
 import com.utn.tesis.service.UserStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -45,7 +46,11 @@ public class UserStoryController {
                 .header("X-Total-Elements", Integer.toString(usList.size()))
                 .body(usList);
     }
-
+    @GetMapping("/{userStoryId}/planning-details")
+    public ResponseEntity<PlanningDetailDTO>getPlanningDetails(@PathVariable Integer userStoryId){
+        PlanningDetailDTO planningDetail = userStoryService.getPlanningDetail(userStoryId);
+        return ResponseEntity.ok(planningDetail);
+    }
     @GetMapping("/{userStoryId}/votations")
     public ResponseEntity<List<Votation>> getUsVotationList(@PathVariable Integer userStoryId) {
         List<Votation> votationsList = userStoryService.getUserStoryVotations(userStoryId);
