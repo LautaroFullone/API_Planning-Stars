@@ -4,6 +4,7 @@ import com.utn.tesis.model.Party;
 import com.utn.tesis.model.User;
 import com.utn.tesis.model.UserStory;
 import com.utn.tesis.model.Votation;
+import com.utn.tesis.model.dto.PlanningDetailDTO;
 import com.utn.tesis.service.UserStoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -25,8 +26,14 @@ public class UserStoryController {
 //-------------------------------------------- P O S T -----------------------------------------------------------------
     @PostMapping
     public ResponseEntity<UserStory>addUserStory(@RequestBody UserStory us){
-      UserStory userStory= userStoryService.creatUs(us);
-      return ResponseEntity.ok(userStory);
+        UserStory userStory = userStoryService.creatUs(us);
+        return ResponseEntity.ok(userStory);
+    }
+    @PostMapping
+    @RequestMapping("/{usId}/planning-result/{storyPoint}")
+    public ResponseEntity<UserStory>addStoryPoint(@PathVariable Integer usId,@PathVariable Integer storyPoint){
+        UserStory userStory= userStoryService.addStoryPoint(usId,storyPoint);
+        return ResponseEntity.ok(userStory);
     }
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
@@ -39,7 +46,11 @@ public class UserStoryController {
                 .header("X-Total-Elements", Integer.toString(usList.size()))
                 .body(usList);
     }
-
+    @GetMapping("/{userStoryId}/planning-details")
+    public ResponseEntity<PlanningDetailDTO>getPlanningDetails(@PathVariable Integer userStoryId){
+        PlanningDetailDTO planningDetail = userStoryService.getPlanningDetail(userStoryId);
+        return ResponseEntity.ok(planningDetail);
+    }
     @GetMapping("/{userStoryId}/votations")
     public ResponseEntity<List<Votation>> getUsVotationList(@PathVariable Integer userStoryId) {
         List<Votation> votationsList = userStoryService.getUserStoryVotations(userStoryId);
@@ -50,7 +61,7 @@ public class UserStoryController {
                     .header("X-Total-Elements", Integer.toString(votationsList.size()))
                     .body(votationsList);
     }
-    // -------------------------------------------- P U T ------------------------------------------------------------------
+// -------------------------------------------- P U T ------------------------------------------------------------------
      @PutMapping("/{userStoryId}")
      public ResponseEntity<UserStory> modifyUserStory(@PathVariable Integer userStoryId, @RequestBody UserStory newUserStory){
         UserStory userStory= userStoryService.modifyUs(userStoryId,newUserStory);
@@ -62,7 +73,7 @@ public class UserStoryController {
         userStoryService.addVotationIntoUserStory(votation, userStoryId);
         return ResponseEntity.ok().build();
     }
-    // -------------------------------------------- D E L E T --------------------------------------------------------------
+// -------------------------------------------- D E L E T --------------------------------------------------------------
     @DeleteMapping("/{userStoryId}")
     public  ResponseEntity deleteParty(@PathVariable Integer userStoryId){
         userStoryService.deleteUs(userStoryId);
