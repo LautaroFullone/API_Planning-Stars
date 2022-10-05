@@ -87,6 +87,7 @@ public class UserStoryService {
          return userStoryRepository.save(us);
 
     }
+
     public Votation getMinValue(List<Votation> votationList){
 
         Votation rta= new Votation();
