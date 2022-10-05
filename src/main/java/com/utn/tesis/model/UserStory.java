@@ -44,6 +44,9 @@ public class UserStory {
     @NotNull(message = "This Field is mandatory")
     private String fileLink;
 
+    @NotNull(message = "This Field is mandatory")
+    private Integer timeInSeconds;
+
     private Integer storyPoints;
     private boolean isActive = true;
 
