@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class UserVoteDTO {
     private Integer vote;
     private String name;
+    private Integer idUser;
 }

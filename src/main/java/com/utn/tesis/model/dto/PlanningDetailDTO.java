@@ -15,7 +15,8 @@ import java.util.List;
 public class PlanningDetailDTO {
 
     private UserVoteDTO maxVote;
-    private  UserVoteDTO minVote;
+    private UserVoteDTO minVote;
     private List<UserVoteDTO> userVotes;
+    private Integer usersNotVote;
     private Integer averageVote;
 }
