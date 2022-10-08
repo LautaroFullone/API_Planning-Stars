@@ -183,4 +183,11 @@ public class UserStoryService {
 
     return  planningDetailDTO;
     }
+    public void restartVotation(Integer idUs){
+        List<Votation> votationList = new ArrayList<Votation>();
+        votationList= votationRespository.findByUserStoryId(idUs);
+        for (Votation vot:votationList) {
+            votationRespository.deleteById(vot.getId());
+        }
+    }
 }

@@ -35,6 +35,13 @@ public class UserStoryController {
         UserStory userStory= userStoryService.addStoryPoint(usId,storyPoint);
         return ResponseEntity.ok(userStory);
     }
+    @PostMapping
+    @RequestMapping("/{idUserStory}/planning-restart")
+        public ResponseEntity planningRestartVotation(@PathVariable Integer idUserStory ){
+           userStoryService.restartVotation(idUserStory);
+           return ResponseEntity.ok("The Votation was clear");
+        }
+
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<List<UserStory>> getUserStories() {
