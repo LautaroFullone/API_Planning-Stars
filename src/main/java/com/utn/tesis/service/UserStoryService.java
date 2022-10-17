@@ -122,6 +122,7 @@ public class UserStoryService {
                 userDTO =new UserVoteDTO();
                 userDTO.setVote(u.getValue());
                 userDTO.setName(userService.getUserById(Integer.valueOf(u.getUserID())).getName());
+                userDTO.setIdUser(Integer.valueOf( u.getUserID()));
                 userVoteDTOS.add(userDTO);
             }
 
@@ -159,24 +160,34 @@ public class UserStoryService {
         rta=promedio;
         return  rta;
     }
-    public PlanningDetailDTO getPlanningDetail(Integer userStoryId) {
+    public PlanningDetailDTO getPlanningDetail(Integer userStoryId,Integer connectedUsers) {
 
         List<Votation> votationList = this.getUserStoryVotations(userStoryId);
 
         Votation minVote= this.getMinValue(votationList);
         Votation maxVote = this.getMaxValue(votationList);
 
-        UserVoteDTO min = new UserVoteDTO(minVote.getValue(), userService.getUserById(Integer.valueOf(minVote.getUserID())).getName());
-        UserVoteDTO max = new UserVoteDTO(maxVote.getValue(), userService.getUserById(Integer.valueOf(maxVote.getUserID())).getName());
+        UserVoteDTO min = new UserVoteDTO(minVote.getValue(), userService.getUserById(Integer.valueOf(minVote.getUserID())).getName(),Integer.valueOf( minVote.getUserID()));
+        UserVoteDTO max = new UserVoteDTO(maxVote.getValue(), userService.getUserById(Integer.valueOf(maxVote.getUserID())).getName(),Integer.valueOf( maxVote.getUserID()));
 
 
         PlanningDetailDTO planningDetailDTO = new PlanningDetailDTO();
         planningDetailDTO.setMinVote(min);
         planningDetailDTO.setMaxVote(max);
         planningDetailDTO.setUserVotes(this.getUserVoteDTO(votationList));
+        System.out.println( connectedUsers - planningDetailDTO.getUserVotes().size() );
+
+        planningDetailDTO.setUsersNotVote( connectedUsers -  planningDetailDTO.getUserVotes().size());
         planningDetailDTO.setAverageVote(this.getAverageValue(votationList));
 
 
     return  planningDetailDTO;
+    }
+    public void restartVotation(Integer idUs){
+        List<Votation> votationList = new ArrayList<Votation>();
+        votationList= votationRespository.findByUserStoryId(idUs);
+        for (Votation vot:votationList) {
+            votationRespository.deleteById(vot.getId());
+        }
     }
 }

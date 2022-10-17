@@ -35,6 +35,13 @@ public class UserStoryController {
         UserStory userStory= userStoryService.addStoryPoint(usId,storyPoint);
         return ResponseEntity.ok(userStory);
     }
+    @PostMapping
+    @RequestMapping("/{idUserStory}/planning-restart")
+        public ResponseEntity planningRestartVotation(@PathVariable Integer idUserStory ){
+           userStoryService.restartVotation(idUserStory);
+           return ResponseEntity.ok("The Votation was clear");
+        }
+
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
     public ResponseEntity<List<UserStory>> getUserStories() {
@@ -46,9 +53,9 @@ public class UserStoryController {
                 .header("X-Total-Elements", Integer.toString(usList.size()))
                 .body(usList);
     }
-    @GetMapping("/{userStoryId}/planning-details")
-    public ResponseEntity<PlanningDetailDTO>getPlanningDetails(@PathVariable Integer userStoryId){
-        PlanningDetailDTO planningDetail = userStoryService.getPlanningDetail(userStoryId);
+    @GetMapping("/{userStoryId}/planning-details/{connectedUsers}")
+    public ResponseEntity<PlanningDetailDTO>getPlanningDetails(@PathVariable Integer userStoryId,@PathVariable Integer connectedUsers){
+        PlanningDetailDTO planningDetail = userStoryService.getPlanningDetail(userStoryId,connectedUsers);
         return ResponseEntity.ok(planningDetail);
     }
     @GetMapping("/{userStoryId}/votations")
