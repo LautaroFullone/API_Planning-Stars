@@ -181,7 +181,7 @@ public class UserStoryService {
         planningDetailDTO.setAverageVote(this.getAverageValue(votationList));
 
 
-    return  planningDetailDTO;
+        return  planningDetailDTO;
     }
     public void restartVotation(Integer idUs){
         List<Votation> votationList = new ArrayList<Votation>();
