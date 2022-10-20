@@ -61,6 +61,14 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
 
+
+    @ExceptionHandler({NoVotationContentException.class})
+    public ResponseEntity<Object> handleUserNorFound(NoVotationContentException ex , WebRequest request){
+        List<String> errors = new ArrayList<>();
+        errors.add(ex.getMessage());
+        ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
+        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+    }
     //PARTY Not Found
     @ExceptionHandler({PartyNotFoundException.class})
     public ResponseEntity<Object> handleUserNorFound(PartyNotFoundException ex , WebRequest request){
