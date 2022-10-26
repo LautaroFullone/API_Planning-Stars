@@ -5,5 +5,5 @@ spring.datasource.username: fhbfoxnsaobqvt
 spring.datasource.password: 1203b60b29250438632f5ebf6af393d370737d34873c4cb6a771a4611036ac17
 spring.jpa.show-sql: true
 spring.jpa.generate-ddl: true
-spring.jpa.hibernate.ddl-auto: create-drop
+spring.jpa.hibernate.ddl-auto: update
 spring.jpa.properties.hibernate: jdbc.lob.non_contextual_creation=true
