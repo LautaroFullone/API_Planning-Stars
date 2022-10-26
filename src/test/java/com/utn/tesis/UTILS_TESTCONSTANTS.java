@@ -120,17 +120,17 @@ public class UTILS_TESTCONSTANTS {
         Votation vot =new Votation();
         vot.setId(1);
         vot.setUserID("1");
-        vot.setValue("4");
+        vot.setValue(4);
 
         Votation vot2 =new Votation();
         vot2.setId(2);
         vot2.setUserID("2");
-        vot2.setValue("4");
+        vot2.setValue(4);
 
         Votation vot3 =new Votation();
         vot3.setId(3);
         vot3.setUserID("3");
-        vot3.setValue("4");
+        vot3.setValue(4);
 
         votationList.add(vot);
         votationList.add(vot3);
