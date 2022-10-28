@@ -1,0 +1,9 @@
+spring.jpa.database: POSTGRESQL
+spring.datasource.platform: postgres
+spring.datasource.url: jdbc:postgresql://ec2-44-199-9-102.compute-1.amazonaws.com:5432/dbomjpoh2j02vs
+spring.datasource.username: fhbfoxnsaobqvt
+spring.datasource.password: 1203b60b29250438632f5ebf6af393d370737d34873c4cb6a771a4611036ac17
+spring.jpa.show-sql: true
+spring.jpa.generate-ddl: true
+spring.jpa.hibernate.ddl-auto: update
+spring.jpa.properties.hibernate: jdbc.lob.non_contextual_creation=true
