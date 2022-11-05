@@ -53,9 +53,9 @@ public class UserStoryController {
                 .header("X-Total-Elements", Integer.toString(usList.size()))
                 .body(usList);
     }
-    @GetMapping("/{userStoryId}/planning-details/{connectedUsers}")
-    public ResponseEntity<PlanningDetailDTO>getPlanningDetails(@PathVariable Integer userStoryId,@PathVariable Integer connectedUsers){
-        PlanningDetailDTO planningDetail = userStoryService.getPlanningDetail(userStoryId,connectedUsers);
+    @GetMapping("/{userStoryId}/planning-details/{connectedUsers}/{saveStoryPoints}")
+    public ResponseEntity<PlanningDetailDTO>getPlanningDetails(@PathVariable Integer userStoryId,@PathVariable Integer connectedUsers,@PathVariable boolean saveStoryPoints){
+        PlanningDetailDTO planningDetail = userStoryService.getPlanningDetail(userStoryId,connectedUsers,saveStoryPoints);
         return ResponseEntity.ok(planningDetail);
     }
     @GetMapping("/{userStoryId}/votations")
