@@ -14,6 +14,6 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry){
         registry.addMapping("/**")
                 .allowedMethods("GET","POST","PUT","DELETE")
-                .allowedOrigins("http://localhost:4200", "https://planning-stars.vercel.app");
+                .allowedOrigins("http://localhost:4200", "https://planning-stars.vercel.app", "https://planning-stars.herokuapp.com");
     }
 }
