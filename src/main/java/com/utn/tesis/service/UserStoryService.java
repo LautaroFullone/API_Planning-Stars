@@ -149,9 +149,19 @@ public class UserStoryService {
         int promedio = 0;
         int contador = 0;
         List<Integer> integerList= new ArrayList<Integer>();
+        integerList.add(1);
+        integerList.add(2);
+        integerList.add(3);
+        integerList.add(5);
+        integerList.add(8);
+        integerList.add(13);
+        integerList.add(21);
+        integerList.add(34);
+        integerList.add(89);
+
         float division = 0;
         for(Votation u: votationList) {
-            integerList.add(u.getValue());
+
             contador += u.getValue();
         }
         division = contador / votationList.size();
@@ -160,25 +170,35 @@ public class UserStoryService {
         rta=promedio;
         return  rta;
     }
-    public PlanningDetailDTO getPlanningDetail(Integer userStoryId,Integer connectedUsers) {
+    public PlanningDetailDTO getPlanningDetail(Integer userStoryId,Integer connectedUsers,boolean saveStoryPoints) {
 
         List<Votation> votationList = this.getUserStoryVotations(userStoryId);
-
-        Votation minVote= this.getMinValue(votationList);
-        Votation maxVote = this.getMaxValue(votationList);
-
-        UserVoteDTO min = new UserVoteDTO(minVote.getValue(), userService.getUserById(Integer.valueOf(minVote.getUserID())).getName(),Integer.valueOf( minVote.getUserID()));
-        UserVoteDTO max = new UserVoteDTO(maxVote.getValue(), userService.getUserById(Integer.valueOf(maxVote.getUserID())).getName(),Integer.valueOf( maxVote.getUserID()));
-
-
         PlanningDetailDTO planningDetailDTO = new PlanningDetailDTO();
-        planningDetailDTO.setMinVote(min);
-        planningDetailDTO.setMaxVote(max);
-        planningDetailDTO.setUserVotes(this.getUserVoteDTO(votationList));
-        System.out.println( connectedUsers - planningDetailDTO.getUserVotes().size() );
+        if(votationList.size() != 0) {
 
-        planningDetailDTO.setUsersNotVote( connectedUsers -  planningDetailDTO.getUserVotes().size());
-        planningDetailDTO.setAverageVote(this.getAverageValue(votationList));
+            Votation minVote = this.getMinValue(votationList);
+            Votation maxVote = this.getMaxValue(votationList);
+
+            UserVoteDTO min = new UserVoteDTO(minVote.getValue(), userService.getUserById(Integer.valueOf(minVote.getUserID())).getName(), Integer.valueOf(minVote.getUserID()));
+            UserVoteDTO max = new UserVoteDTO(maxVote.getValue(), userService.getUserById(Integer.valueOf(maxVote.getUserID())).getName(), Integer.valueOf(maxVote.getUserID()));
+
+
+
+            planningDetailDTO.setMinVote(min);
+            planningDetailDTO.setMaxVote(max);
+            planningDetailDTO.setUserVotes(this.getUserVoteDTO(votationList));
+
+            planningDetailDTO.setUsersNotVote(connectedUsers - planningDetailDTO.getUserVotes().size());
+            planningDetailDTO.setAverageVote(this.getAverageValue(votationList));
+
+            if (saveStoryPoints == true) {
+                UserStory us = getUserStory(userStoryId);
+                us.setStoryPoints(planningDetailDTO.getAverageVote());
+                userStoryRepository.save(us);
+            }
+        }else {
+            throw new NoVotationContentException();
+        }
 
 
         return  planningDetailDTO;
