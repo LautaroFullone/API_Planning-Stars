@@ -38,7 +38,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({EmailExistException.class})
     public ResponseEntity<Object> handleEmailExist(EmailExistException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The email already exists, use another.");
+        errors.add("The email already exists, try again.");
         ApiError apiError= new ApiError(HttpStatus.CONFLICT,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
@@ -47,7 +47,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({InvalidUserOrPasswordException.class})
     public ResponseEntity<Object> handleInvalidUserData(InvalidUserOrPasswordException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The Password or Email are incorrect, please try again.");
+        errors.add("The data is incorrect, try again.");
         ApiError apiError= new ApiError(HttpStatus.UNAUTHORIZED,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
@@ -56,7 +56,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({UserNotFoundException.class})
     public ResponseEntity<Object> handleUserNorFound(UserNotFoundException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The User do not exist.");
+        errors.add("The User do not exists.");
         ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
@@ -65,9 +65,11 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({NoVotationContentException.class})
     public ResponseEntity<Object> handleUserNorFound(NoVotationContentException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add(ex.getMessage());
+        errors.add("The UserStory doesn´t have votations.");
         ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
-        return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
+        return  ResponseEntity.status(apiError.getHttpStatus())
+                    .header("Status",ex.getMessage())
+                    .body(apiError);
     }
     //PARTY Not Found
     @ExceptionHandler({PartyNotFoundException.class})
@@ -82,7 +84,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({UsNotFoundException.class})
     public ResponseEntity<Object> handleUserNorFound(UsNotFoundException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The Us do not exist");
+        errors.add("The UsserStory doesn´t exist");
         ApiError apiError= new ApiError(HttpStatus.NOT_FOUND,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
@@ -91,7 +93,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({UsDoNotMatchException.class})
     public ResponseEntity<Object> handleUserNorFound(UsDoNotMatchException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The id Of the UserStory Do not Match.");
+        errors.add("The ID of the UserStory doesn´t match.");
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
@@ -100,7 +102,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({UsNotInThePartyException.class})
     public ResponseEntity<Object> handleUserNorFound(UsNotInThePartyException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The Us is not present in the Party.");
+        errors.add("The UserStory is not present in the Party.");
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
@@ -109,7 +111,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({idNotMatchException.class})
     public ResponseEntity<Object> handleUserNorFound(idNotMatchException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The ID DO NOT MATCH");
+        errors.add("The ID do not match.");
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
@@ -118,7 +120,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({usNameRepetedException.class})
     public ResponseEntity<Object> handleUserNorFound(usNameRepetedException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The us name is un USE, please try with other.");
+        errors.add("The UserStory name already in use.");
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
@@ -127,7 +129,7 @@ public class RestResponseExeptionHandler extends ResponseEntityExceptionHandler 
     @ExceptionHandler({UsAlreadyInThePartyException.class})
     public ResponseEntity<Object> handleUserNorFound(UsAlreadyInThePartyException ex , WebRequest request){
         List<String> errors = new ArrayList<>();
-        errors.add("The userStory is already in the party.");
+        errors.add("The UserStory is already present.");
         ApiError apiError= new ApiError(HttpStatus.BAD_REQUEST,ex.getLocalizedMessage() ,errors);
         return  ResponseEntity.status(apiError.getHttpStatus()).header("Status",ex.getMessage()).body(apiError);
     }
