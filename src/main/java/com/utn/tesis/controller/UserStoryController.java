@@ -37,10 +37,10 @@ public class UserStoryController {
     }
     @PostMapping
     @RequestMapping("/{idUserStory}/planning-restart")
-        public ResponseEntity planningRestartVotation(@PathVariable Integer idUserStory ){
-           userStoryService.restartVotation(idUserStory);
-           return ResponseEntity.ok("The Votation was clear");
-        }
+    public ResponseEntity planningRestartVotation(@PathVariable Integer idUserStory ){
+        UserStory userStory= userStoryService.restartVotation(idUserStory);
+        return ResponseEntity.status(HttpStatus.OK).body(userStory);
+    }
 
 // -------------------------------------------- G E T ------------------------------------------------------------------
     @GetMapping
