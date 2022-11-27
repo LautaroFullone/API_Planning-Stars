@@ -84,8 +84,7 @@ public class UserStoryService {
     public UserStory addStoryPoint(Integer usID,Integer storyPoint) {
         UserStory us = userStoryRepository.findById(usID).orElseThrow(()-> new UserNotFoundException());
         us.setStoryPoints(storyPoint);
-         return userStoryRepository.save(us);
-
+        return userStoryRepository.save(us);
     }
 
     public Votation getMinValue(List<Votation> votationList){
@@ -93,14 +92,12 @@ public class UserStoryService {
         Votation rta= new Votation();
         rta= votationList.get(0);
         for (Votation v : votationList) {
-            if(rta.getValue() > v.getValue()){
+            if(rta.getValue() > v.getValue())
                 rta =v;
-            }
-
         }
         return  rta;
-
     }
+
     public Votation getMaxValue(List<Votation> votationList){
 
         Votation rta= new Votation();
@@ -112,8 +109,8 @@ public class UserStoryService {
 
         }
         return  rta;
-
     }
+
     public List<UserVoteDTO> getUserVoteDTO(List<Votation> votationList){
         List<UserVoteDTO> userVoteDTOS = new ArrayList<UserVoteDTO>();
         UserVoteDTO userDTO ;
@@ -128,6 +125,7 @@ public class UserStoryService {
 
         return userVoteDTOS;
     }
+
     public  int aproxNumber(List<Integer> numeros, int num) {
         int cercano = 0;
         int diferencia = Integer.MAX_VALUE;
@@ -143,6 +141,7 @@ public class UserStoryService {
         }
         return cercano;
     }
+
     public int getAverageValue(List<Votation> votationList){
 
         int rta = 0;
@@ -160,29 +159,27 @@ public class UserStoryService {
         integerList.add(89);
 
         float division = 0;
-        for(Votation u: votationList) {
-
+        for(Votation u: votationList)
             contador += u.getValue();
-        }
+
         division = contador / votationList.size();
 
         promedio = this.aproxNumber(integerList,(int)division);
         rta=promedio;
         return  rta;
     }
+
     public PlanningDetailDTO getPlanningDetail(Integer userStoryId,Integer connectedUsers,boolean saveStoryPoints) {
 
         List<Votation> votationList = this.getUserStoryVotations(userStoryId);
         PlanningDetailDTO planningDetailDTO = new PlanningDetailDTO();
-        if(votationList.size() != 0) {
 
+        if(votationList.size() != 0) {
             Votation minVote = this.getMinValue(votationList);
             Votation maxVote = this.getMaxValue(votationList);
 
             UserVoteDTO min = new UserVoteDTO(minVote.getValue(), userService.getUserById(Integer.valueOf(minVote.getUserID())).getName(), Integer.valueOf(minVote.getUserID()));
             UserVoteDTO max = new UserVoteDTO(maxVote.getValue(), userService.getUserById(Integer.valueOf(maxVote.getUserID())).getName(), Integer.valueOf(maxVote.getUserID()));
-
-
 
             planningDetailDTO.setMinVote(min);
             planningDetailDTO.setMaxVote(max);
@@ -199,15 +196,16 @@ public class UserStoryService {
         }else {
             throw new NoVotationContentException();
         }
-
-
-    return  planningDetailDTO;
+        return  planningDetailDTO;
     }
-    public void restartVotation(Integer idUs){
+    public UserStory restartVotation(Integer usID){
+        UserStory userStory = userStoryRepository.findById(usID).orElseThrow(()-> new UserNotFoundException());
         List<Votation> votationList = new ArrayList<Votation>();
-        votationList= votationRespository.findByUserStoryId(idUs);
-        for (Votation vot:votationList) {
+        votationList= votationRespository.findByUserStoryId(usID);
+
+        for (Votation vot:votationList)
             votationRespository.deleteById(vot.getId());
-        }
+
+        return userStory;
     }
 }

@@ -2,6 +2,6 @@ package com.utn.tesis.exception.types;
 
 public class EmailExistException extends RuntimeException  {
     public EmailExistException() {
-        super("Entry email in use");
+        super("Email in use");
     }
 }
